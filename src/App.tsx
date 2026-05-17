@@ -288,8 +288,9 @@ const translations = {
         expertiseOptions: ['İlk Yardım', 'Lojistik', 'Arama Kurtarma', 'Psikososyal Destek'],
         volunteerTags: {
           health: 'Sağlık',
-          tech: 'Teknik/Saha',
-          logistics: 'Lojistik/Dil',
+          tech: 'Saha',
+          logistics: 'Lojistik',
+          language: 'Dil',
         },
         fieldOptions: {
           field: 'Saha Gönüllüsü',
@@ -307,7 +308,10 @@ const translations = {
           { q: 'Deprem anında ilk ne yapmalıyım?', a: 'Çök-Kapan-Tutun yöntemini uygulayın. Pencerelerden, merdivenlerden ve asansörlerden uzak durun.' },
           { q: 'Afet çantasına neler koymalıyım?', a: 'Su, düdük, fener, ilk yardım seti, yedek piller, battaniye ve 3 günlük kuru gıda.' },
           { q: 'Sel baskını uyarısı aldığımda ne yapmalıyım?', a: 'Elektrik ve doğalgazı kapatın, hemen yüksek bölgelere çıkın. Aracınızı kullanmaya çalışmayın.' },
-          { q: 'Yangın anında kapılar sıcaksa ne yapmalıyım?', a: 'Kapıyı açmayın. Dumanı engellemek için kapı altlarını ıslak bezle kapatın ve pencereden yardım isteyin.' }
+          { q: 'Yangın anında kapılar sıcaksa ne yapmalıyım?', a: 'Kapıyı açmayın. Dumanı engellemek için kapı altlarını ıslak bezle kapatın ve pencereden yardım isteyin.' },
+          { q: 'Toplanma alanımı nasıl öğrenebilirim?', a: 'E-Devlet üzerinden \'Afet ve Acil Durum Toplanma Alanı Sorgulama\' hizmetini kullanarak veya uygulamamızdaki \'Toplanma Alanları\' haritasından size en yakın güvenli noktayı öğrenebilirsiniz.' },
+          { q: 'Enkaz altında kalırsam ne yapmalıyım?', a: 'Panik yapmamaya çalışın ve enerjinizi koruyun. Toz yutmamak için ağzınızı bir bezle kapatın. Dışarıdan ses duyduğunuzda borulara vurarak veya düdük çalarak yerinizi belli edin.' },
+          { q: 'DASK hasar bildirimi ne kadar sürede yapılmalıdır?', a: 'Hasarı öğrendiğiniz tarihten itibaren en geç 15 iş günü içinde DASK\'a (Alo 125, e-Devlet veya web sitesi üzerinden) bildirim yapmanız gerekmektedir.' }
         ]
       }
     }
@@ -480,8 +484,9 @@ const translations = {
         expertiseOptions: ['First Aid', 'Logistics', 'Search & Rescue', 'Psychosocial Support'],
         volunteerTags: {
           health: 'Health',
-          tech: 'Technical/Field',
-          logistics: 'Logistics/Language',
+          tech: 'Field',
+          logistics: 'Logistics',
+          language: 'Language',
         },
         fieldOptions: {
           field: 'Field Volunteer',
@@ -499,7 +504,10 @@ const translations = {
           { q: 'What should I do first during an earthquake?', a: 'Apply the Drop-Cover-Hold on method. Stay away from windows, stairs, and elevators.' },
           { q: 'What should I put in an emergency kit?', a: 'Water, whistle, flashlight, first aid kit, spare batteries, blanket, and 3 days of dry food.' },
           { q: 'What should I do when I receive a flood warning?', a: 'Turn off electricity and gas, move to higher ground immediately. Do not try to drive your vehicle.' },
-          { q: 'What if the doors are hot during a fire?', a: 'Do not open the door. Block smoke with wet cloths under the door and call for help from the window.' }
+          { q: 'What if the doors are hot during a fire?', a: 'Do not open the door. Block smoke with wet cloths under the door and call for help from the window.' },
+          { q: 'How can I find out my assembly area?', a: 'You can find your nearest safe point by using the \'Disaster and Emergency Assembly Area Inquiry\' service on e-Government or from the \'Assembly Areas\' map in our application.' },
+          { q: 'What should I do if I am trapped under rubble?', a: 'Try not to panic and conserve your energy. Cover your mouth with a cloth to avoid swallowing dust. When you hear sounds from outside, tap on pipes or blow a whistle to signal your location.' },
+          { q: 'How long do I have to report a DASK claim?', a: 'You must notify DASK (via Alo 125, e-Government or website) within 15 working days at the latest from the date you learned of the damage.' }
         ]
       }
     }
@@ -672,8 +680,9 @@ const translations = {
         expertiseOptions: ['إسعافات أولية', 'خدمات لوجستية', 'بحث وإنقاذ', 'دعم نفسي واجتماعي'],
         volunteerTags: {
           health: 'صحة',
-          tech: 'تقني/ميداني',
-          logistics: 'لوجستي/لغة',
+          tech: 'ميداني',
+          logistics: 'لوجستي',
+          language: 'لغة',
         },
         fieldOptions: {
           field: 'متطوع ميداني',
@@ -691,7 +700,10 @@ const translations = {
           { q: 'ماذا يجب أن أفعل أولاً أثناء الزلزال؟', a: 'قم بتطبيق طريقة انزل-تغط-تمسك. ابق بعيداً عن النوافذ والسلالم والمصاعد.' },
           { q: 'ماذا يجب أن أضع في حقيبة الطوارئ؟', a: 'ماء، صفارة، مصباح يدوي، حقيبة إسعافات أولية، بطاريات احتياطية، بطانية، وطعام جاف لمدة 3 أيام.' },
           { q: 'ماذا يجب أن أفعل عندما أتلقى تحذيراً من فيضان؟', a: 'أوقف تشغيل الكهرباء والغاز، وانتقل إلى أرض مرتفعة على الفور. لا تحاول قيادة سيارتك.' },
-          { q: 'ماذا لو كانت الأبواب ساخنة أثناء الحريق؟', a: 'لا تفتح الباب. سد الدخان بقطع قماش مبللة تحت الباب واطلب المساعدة من النافذة.' }
+          { q: 'ماذا لو كانت الأبواب ساخنة أثناء الحريق؟', a: 'لا تفتح الباب. سد الدخان بقطع قماش مبللة تحت الباب واطلب المساعدة من النافذة.' },
+          { q: 'كيف يمكنني معرفة منطقة التجمع الخاصة بي؟', a: 'يمكنك معرفة أقرب نقطة آمنة لك باستخدام خدمة "الاستعلام عن منطقة التجمع في حالات الكوارث والطوارئ" على بوابة الحكومة الإلكترونية أو من خريطة "مناطق التجمع" في تطبيقنا.' },
+          { q: 'ماذا أفعل إذا حوصرت تحت الأنقاض؟', a: 'حاول ألا تصاب بالذعر وحافظ على طاقتك. قم بتغطية فمك بقطعة قماش لتجنب ابتلاع الغبار. عندما تسمع صوتاً من الخارج، أعلن عن موقعك عن طريق ضرب الأنابيب أو إطلاق صفارة.' },
+          { q: 'ما هي المدة الزمنية للإبلاغ عن مطالبة DASK؟', a: 'يجب عليك إخطار DASK (عبر Alo 125 أو بوابة الحكومة الإلكترونية أو الموقع الإلكتروني) في غضون 15 يوم عمل كحد أقصى من تاريخ علمك بالضرر.' }
         ]
       }
     }
@@ -985,18 +997,18 @@ export default function App() {
         }}
       />
       {/* Logo Watermark Background */}
-      <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center opacity-[0.06]">
+      <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center opacity-[0.15]">
         <img src="/logo.png" alt="" className="w-full max-w-3xl object-contain" />
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-xl border-b border-gray-200 z-50 px-6 flex items-center justify-between shadow-sm">
+      <header className="fixed top-0 left-0 right-0 h-20 bg-white/95 backdrop-blur-xl border-b border-gray-200 z-50 px-6 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-4">
           <div className="relative">
             <img
               src="/logo.png"
               alt="Logo"
-              className="w-16 h-16 object-contain brightness-90 contrast-125"
+              className="w-20 h-20 object-contain brightness-90 contrast-125"
               referrerPolicy="no-referrer"
             />
           </div>
@@ -1119,7 +1131,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="pt-20 pb-10 px-4 sm:px-6 max-w-5xl mx-auto">
+      <main className="pt-24 pb-10 px-4 sm:px-6 max-w-5xl mx-auto">
         <AnimatePresence mode="wait">
           {!activeModule ? (
             <motion.div
@@ -2553,23 +2565,80 @@ function NeedsDashboard({ lang }: { lang: 'tr' | 'en' | 'ar' }) {
 }
 
 function LogisticsNetwork({ lang }: { lang: 'tr' | 'en' | 'ar' }) {
+  const [fromSearch, setFromSearch] = useState('');
+  const [toSearch, setToSearch] = useState('');
+  const [logisticsList, setLogisticsList] = useState<LogisticsPost[]>(LOGISTICS_DATA);
+
+  const filteredLogistics = logisticsList.filter(item => {
+    const matchFrom = item.from.toLowerCase().includes(fromSearch.toLowerCase());
+    const matchTo = item.to.toLowerCase().includes(toSearch.toLowerCase());
+    return matchFrom && matchTo;
+  });
+
+  const handleCreateRoute = () => {
+    if (!fromSearch.trim() || !toSearch.trim()) {
+      alert(lang === 'tr' ? "Lütfen 'Nereden' ve 'Nereye' alanlarını doldurun." : "Please fill in 'From' and 'To' fields.");
+      return;
+    }
+
+    const newRoute: LogisticsPost = {
+      id: 'l' + Date.now(),
+      from: fromSearch.trim(),
+      to: toSearch.trim(),
+      vehicle: lang === 'tr' ? 'Binek Araç / Özel' : 'Private Vehicle',
+      departure: lang === 'tr' ? 'En Kısa Sürede' : 'As soon as possible',
+      capacity: 100, // Varsayılan tam kapasite
+      contact: 'Sistem üzerinden eklendi'
+    };
+
+    setLogisticsList([newRoute, ...logisticsList]);
+    setFromSearch('');
+    setToSearch('');
+  };
+
   return (
     <div className="space-y-8">
       {/* Provider Form Section */}
       <div className="p-8 bg-blue-600 rounded-[40px] text-white shadow-2xl shadow-blue-600/20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl" />
         <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <h3 className="text-2xl font-black mb-2 flex items-center gap-3">
               <Truck size={32} /> {lang === 'tr' ? 'Yoldayım - Lojistik Ağı' : 'I\'m on my way - Logistics Network'}
             </h3>
-            <p className="text-blue-100 text-sm font-medium leading-relaxed">
+            <p className="text-blue-100 text-sm font-medium leading-relaxed mb-6">
               {lang === 'tr'
                 ? 'Afet bölgesine gidecek aracınız mı var? Rotanızı ekleyin, yardım bekleyen malzemelerle sizi eşleştirelim.'
                 : 'Do you have a vehicle going to the disaster zone? Add your route, let us match you with supplies.'}
             </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1 bg-white/20 rounded-2xl p-3 flex items-center gap-3 backdrop-blur-sm">
+                <MapPin size={20} className="text-blue-100 ml-2" />
+                <input 
+                  type="text" 
+                  placeholder={lang === 'tr' ? 'Nereden (Örn: İstanbul)' : 'From'}
+                  value={fromSearch}
+                  onChange={(e) => setFromSearch(e.target.value)}
+                  className="bg-transparent border-none text-white placeholder-blue-200 outline-none w-full font-bold"
+                />
+              </div>
+              <div className="flex-1 bg-white/20 rounded-2xl p-3 flex items-center gap-3 backdrop-blur-sm">
+                <MapPin size={20} className="text-blue-100 ml-2" />
+                <input 
+                  type="text" 
+                  placeholder={lang === 'tr' ? 'Nereye (Örn: Hatay)' : 'To'}
+                  value={toSearch}
+                  onChange={(e) => setToSearch(e.target.value)}
+                  className="bg-transparent border-none text-white placeholder-blue-200 outline-none w-full font-bold"
+                />
+              </div>
+            </div>
           </div>
-          <button className="px-8 py-4 bg-white text-blue-600 rounded-3xl font-black uppercase text-xs shadow-xl hover:bg-blue-50 transition-all active:scale-95">
+          <button 
+            onClick={handleCreateRoute}
+            className="px-8 py-4 bg-white text-blue-600 rounded-3xl font-black uppercase text-xs shadow-xl hover:bg-blue-50 transition-all active:scale-95 whitespace-nowrap h-full"
+          >
             {lang === 'tr' ? 'Rota Oluştur' : 'Create Route'}
           </button>
         </div>
@@ -2577,9 +2646,14 @@ function LogisticsNetwork({ lang }: { lang: 'tr' | 'en' | 'ar' }) {
 
       {/* Available Routes List */}
       <div className="space-y-4">
-        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest px-4">{lang === 'tr' ? 'Aktif Araçlar & Rotalar' : 'Active Vehicles & Routes'}</h4>
+        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest px-4">
+          {lang === 'tr' ? 'Aktif Araçlar & Rotalar' : 'Active Vehicles & Routes'}
+          {filteredLogistics.length === 0 && (
+             <span className="ml-2 text-red-500 lowercase">({lang === 'tr' ? 'Sonuç bulunamadı' : 'No results found'})</span>
+          )}
+        </h4>
         <div className="grid grid-cols-1 gap-3">
-          {LOGISTICS_DATA.map((item) => (
+          {filteredLogistics.map((item) => (
             <motion.div
               key={item.id}
               className="p-5 bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-6"
