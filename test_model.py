@@ -13,7 +13,11 @@ async def main():
         catalog = manager.catalog
         models = catalog.list_models()
         
+<<<<<<< HEAD
         print(f"\n🚀 BAŞARILI! Microsoft Foundry Local canavar gibi çalışıyor Mustafa.")
+=======
+        print(f"\n🚀 BAŞARILI! Microsoft Foundry Local canavar gibi çalışıyor.")
+>>>>>>> 62333d24542f3db017eed42c908e03aaeaa044fa
         print(f"Kullanılabilir yerel model sayısı: {len(models)}\n")
         print("İnternetsiz (Offline) çalıştırabileceğimiz modeller:")
         
