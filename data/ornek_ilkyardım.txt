@@ -1,6 +1,27 @@
-İlk yardımın temelde 4 amacı vardır. Bunlar hasta/yaralının:
+=== ENKAZ VE GÖÇÜK ALTINDA KALMA DURUMU ===
+Göçük veya enkaz altında kaldıysanız sakin olun ve şu hayati adımları uygulayın:
+1. Hareket kabiliyetiniz kısıtlıysa enerjinizi koruyun, gereksiz yere bağırmayın.
+2. Solunum yollarınızı korumak için ağzınızı ve burnunuzu bir giysiyle (kıyafet parçası) kapatın.
+3. Dışarıdan ses geldiğinde elinizin altındaki boru, duvar veya sert bir cisme düzenli aralıklarla vurun (Tık tık tık).
+4. Sesinizi sadece kurtarma ekiplerinin sesini duyduğunuzda ve yaklaştıklarında kullanın, bağırarak cevap verin.
 
-Hayatını korumak,
-Sağlık durumunun kötüleşmesini önlemek,
-İyileşmesine destek olmak,
-En yakın sağlık kuruluşuna güvenle ulaşımının sağlanmasına yardımcı olmaktır.
+=== ŞİDDETLİ KANAMA MÜDAHALESİ ===
+Şiddetli bir kanama durumunda saniyeler önemlidir, şu adımları uygulayın:
+1. Yaralıyı düz bir yere yatırın ve kanayan bölgeyi mümkünse kalp seviyesinden yukarıda tutun.
+2. Kanayan yerin üzerine temiz bir bez veya kıyafet parçası koyarak elinizle sertçe bastırın.
+3. Bez kanla dolsa bile kesinlikle kaldırmayın; üzerine ikinci bir temiz bez koyarak baskıya devam edin.
+4. Kanama durmuyorsa ve uzuv kopması varsa, yaranın üst kısmına sıkı bir bezle turnike (boğucu sargı) uygulayın.
+
+=== YANIK DURUMLARINDA İLK MÜDAHALE ===
+Yangın veya sıcak temas sonrası oluşan yanıklarda şu adımları izleyin:
+1. Yanık bölgesini derhal en az 15-20 dakika akan hafif soğuk (asla buzlu değil) suyun altında tutun.
+2. Yanmış alandaki giysileri deriyi kaldırmadan dikkatlice kesin, yapışan giysileri asla zorla çekmeyin.
+3. Yanık sonucu oluşan su kabarcıklarını KESİNLİKLE patlatmayın, mikrop kapmasına neden olur.
+4. Yanık üzerine yoğurt, diş macunu, salça veya krem gibi maddeler KESİNLİKLE sürmeyin; sadece temiz ve ıslak bir bezle örtün.
+
+=== GAZ SIZINTISI VE KOKUSU ALINDIĞINDA ===
+Deprem veya afet sonrası gaz kokusu hissedildiğinde şu adımları uygulayın:
+1. Asla kibrit, çakmak çakmayın, elektrik düğmelerine dokunmayın (açıksa kapatmayın, kapalıysa açmayın).
+2. Ana gaz vanasını (şalteri) hemen sağa çevirerek kapatın.
+3. Ortamı havalandırmak için tüm kapı ve pencereleri hızla açın.
+4. Binayı derhal tahliye edin ve güvenli bir mesafeden 187 Doğalgaz Arıza hattını arayın.

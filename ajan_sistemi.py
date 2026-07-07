@@ -1,65 +1,96 @@
 import sqlite3
-import requests  # Ollama ile konuşabilmek için
+import requests
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
-# 1. ADIM: Senin hazırladığın veritabanı arama fonksiyonu
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class SoruPaketi(BaseModel):
+    soru: str
+
+def sorudan_anahtar_kelime_bul_hizli(kullanici_sorusu):
+    soru_temiz = kullanici_sorusu.lower()
+    
+    if any(kök in soru_temiz for kök in ["yan", "ynk", "ateş", "alev"]):
+        return "yanık"
+    elif any(kök in soru_temiz for kök in ["kan", "kesi", "kop", "yara"]):
+        return "kanama"
+    elif any(kök in soru_temiz for kök in ["gaz", "koku", "sızınt", "şalter", "vana"]):
+        return "gaz"
+    elif any(kök in soru_temiz for kök in ["enkaz", "göçük", "altınd", "sıkış"]):
+        return "enkaz"
+    elif any(kök in soru_temiz for kök in ["çanta", "deprem ç", "cnta", "malzeme"]):
+        return "deprem çantası"
+    
+    return "ilk yardım"
+
+# ⚡ YENİLENEN VERİTABANI FONKSİYONU (Sadece ilgili başlığın altındaki dökümanı getirir)
 def afet_veritabaninda_ara(soru_kelimesi):
     conn = sqlite3.connect('afet_bilgi.db')
     cursor = conn.cursor()
     
-    # 'icerik' hatası düzeltildi, senin veritabanındaki gerçek sütun adı 'metin_parcasi' yazıldı
+    # Kelimenin geçtiği dökümanları çekiyoruz
     cursor.execute("SELECT metin_parcasi FROM kaynak_dokumanlar WHERE metin_parcasi LIKE ?", (f'%{soru_kelimesi}%',))
     sonuclar = cursor.fetchall()
     conn.close()
     
     if sonuclar:
-        # Bulunan tüm döküman metinlerini birleştiriyoruz
-        return "\n".join([satir[0] for satir in sonuclar])
-    return "Veritabanında bu konuyla ilgili spesifik bir döküman bulunamadı."
+        # 🎯 EN YÜKSEK ÖNCELİKLİ EŞLEŞME (Başlık Kontrolü)
+        # Çekilen dökümanlar arasında, aradığımız kelime hangi dökümanın ilk 30 karakterinde (yani başlığında) geçiyorsa onu seç.
+        for satir in sonuclar:
+            metin = satir[0]
+            if soru_kelimesi.lower() in metin[:30].lower():
+                print(f"🎯 Nokta Atışı Başlık Eşleşmesi: {soru_kelimesi.upper()}")
+                return metin
+        
+        # Eğer özellikle başlıkta bulamazsa, içinde geçen ilk dökümanı döndür
+        return sonuclar[0][0]
+        
+    return "Veritabanında bu konuyla ilgili acil müdahale bilgisi bulunamadı."
 
-# 2. ADIM: Ollama'ya veritabanı bilgisiyle birlikte soru gönderme fonksiyonu
-def yapay_zekaya_sor(kullanici_sorusu, arama_anahtari):
-    # Önce senin veritabanından ilgili yazıları çekiyoruz
+@app.post("/soru-sor")
+def yapay_zekaya_sor(paket: SoruPaketi):
+    kullanici_sorusu = paket.soru
+    
+    arama_anahtari = sorudan_anahtar_kelime_bul_hizli(kullanici_sorusu)
     veritabanindan_gelen_bilgi = afet_veritabaninda_ara(arama_anahtari)
     
-    # YAPAY ZEKAYI SINIRLANDIRDIĞIMIZ ŞABLON (Prompt)
     sistem_talimati = f"""
-    Sen Türkiye Afette Elele projesinin resmi yapay zeka asistanısın. 
-    Sadece sana aşağıda verilen 'GÜVENİLİR BİLGİ' kısmına dayanarak cevap vereceksin.
-    Eğer bilgi içeride yoksa, kendi kafandan bilgi uydurma.
-    KESİNLİKLE SADECE TÜRKÇE CEVAP VER.
+    Sen Türkiye Afette Elele projesinin acil durum yapay zeka asistanısın.
+    Kullanıcı şu an büyük bir panik içinde. Sadece sana verilen 'GÜVENİLİR BİLGİ' başlığı altındaki maddeleri oku ve cevapla.
+    
+    TALİMATLAR:
+    1. Kesinlikle başka konulardan (Örn: Enkaz, deprem çantası) bahsetme. Sadece soruyla eşleşen maddeleri yaz.
+    2. Cevabın İNANILMAZ KISA, NET ve EMİR KİPİYLE olmalıdır.
+    3. Giriş veya sonuç cümleleri asla yazma. Doğrudan maddeleri ver.
 
     GÜVENİLİR BİLGİ:
     {veritabanindan_gelen_bilgi}
     """
     
-    # Ollama'nın bilgisayarındaki yerel adresi (API Endpoint)
     ollama_url = "http://localhost:11434/api/chat"
-    
-    # Ollama'ya göndereceğimiz paket
     veri_paketi = {
-        "model": "llama3:8b",  # Bilgisayarına indirdiğin modelin adı
+        "model": "llama3:8b", 
         "messages": [
             {"role": "system", "content": sistem_talimati},
             {"role": "user", "content": kullanici_sorusu}
         ],
-        "stream": False  # Cevabı parça parça değil, tek seferde bütün almak için
+        "stream": False
     }
     
-    # İstek atıyoruz
-    response = requests.post(ollama_url, json=veri_paketi)
-    
-    if response.status_code == 200:
-        return response.json()['message']['content']
-    else:
-        return f"Ollama bağlantı hatası: {response.status_code}"
-
-# 🚀 TEST EDİYORUZ
-if __name__ == "__main__":
-    # Veritabanında olan "ilk yardım" kelimesini aratıyoruz
-    anahtar = "ilk yardım" 
-    soru = "Afet anında ilk yardım yaparken nelere dikkat etmeliyiz?"
-    
-    print("Veritabanı aranıyor ve Ollama tetikleniyor...\n")
-    cevap = yapay_zekaya_sor(soru, anahtar)
-    print("--- YAPAY ZEKANIN CEVABI ---")
-    print(cevap)
+    try:
+        response = requests.post(ollama_url, json=veri_paketi)
+        if response.status_code == 200:
+            return {"cevap": response.json()['message']['content']}
+    except:
+        pass
+    return {"cevap": "Sistem şu an yoğun, lütfen 112'yi arayın."}

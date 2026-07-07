@@ -90,7 +90,7 @@ const ASSEMBLY_POINTS = [
   // Bursa
   { id: 'bur1', city: 'Bursa', district: 'Osmangazi', address: 'Merinos Kültür Parkı', pos: [40.1824, 29.0611] as [number, number] },
   { id: 'bur2', city: 'Bursa', district: 'Nilüfer', address: 'Üç Fidan Parkı', pos: [40.2100, 28.9500] as [number, number] },
-  { id: 'bur3', city: 'Bursa', district: 'Yıldırım', address: 'Kaplıkaya Cazibe Merkezi Yanı', pos: [40.1834, 29.0911] as [number, number] },
+  { id: 'bur3', border: 'Bursa', district: 'Yıldırım', address: 'Kaplıkaya Cazibe Merkezi Yanı', pos: [40.1834, 29.0911] as [number, number] },
 
   // Others
   { id: 'adi1', city: 'Adıyaman', district: 'Merkez', address: 'Mimar Sinan Parkı', pos: [37.7648, 38.2763] as [number, number] },
@@ -141,7 +141,7 @@ const translations = {
     fire: 'Orman Yangını',
     sirenPlaying: 'Siren Çalıyor',
     sirenStopped: 'Siren Durduruldu',
-    aiPlaceholder: 'Yapay zeka asistanına afet ve ilk yardım hakkında sorun... (Örn: kanama durumunda ne yapmalıyım)',
+    aiPlaceholder: 'Yapay zeka asistanına afet and ilk yardım hakkında sorun... (Örn: kanama durumunda ne yapmalıyım)',
     aiTitle: '🤖 Yapay Zeka Destekli Afet Asistanı',
     aiThinking: 'Düşünüyor ve veritabanını tarıyor...',
     aiError: 'Yapay zeka motoruna bağlanılamadı. Lütfen Python (FastAPI) sunucunuzun çalıştığından emin olun.',
@@ -218,7 +218,7 @@ const translations = {
             regulations: [
               { year: '1999 Öncesi', desc: '1975 ve 1998 yönetmelikleri geçerliydi. Standartlar günümüze göre oldukça düşüktü.' },
               { year: '1999-2018', desc: 'Deprem sonrası revize edilen 2007 yönetmeliği ile denetimler arttırıldı.' },
-              { year: '2018 Sonrası', desc: 'En güncel ve sıkı Türkiye Bina Deprem Yönetmeliği kriterlerine tabidir.' }
+              { year: '2018 Sonrası', desc: 'En güncel og sıkı Türkiye Bina Deprem Yönetmeliği kriterlerine tabidir.' }
             ]
           },
           report: {
@@ -266,7 +266,7 @@ const translations = {
           { scenario: 'Depremde yatakta yakalanırsak ne yapmalıyız?', options: [{ text: 'Yastıkla başı koruyup cenin pozisyonu almak', correct: true }, { text: 'Pencereden atlamak', correct: false }, { text: 'Merdivenlere koşmak', correct: false }] },
           { scenario: 'Yangın söndürme cihazı kullanırken ilk adım (PASS) nedir?', options: [{ text: 'Hortumu yöneltmek', correct: false }, { text: 'Pimi çekmek', correct: true }, { text: 'Mandala basmak', correct: false }] },
           { scenario: 'Afet çantasında bulunması gerekmeyen şey nedir?', options: [{ text: 'El feneri', correct: false }, { text: 'Porselen tabak', correct: true }, { text: 'Düdük', correct: false }] },
-          { scenario: 'Sel sularının içine girmek güvenli midir?', options: [{ text: 'Evet, su seviyesi düşükse', correct: false }, { text: 'Hayır, akıntı ve hastalık riski vardır', correct: true }, { text: 'Sadece yüzme bilenler için', correct: false }] },
+          { scenario: 'Sel sularının içine girmek güvenli midir?', options: [{ text: 'Evet, su seviyesi düşükse', correct: false }, { text: 'Hayır, akıntı og hastalık riski vardır', correct: true }, { text: 'Sadece yüzme bilenler için', correct: false }] },
           { scenario: 'İlk yardımda birinci derece yanığa ne uygulanır?', options: [{ text: 'Diş macunu sürmek', correct: false }, { text: '10-15 dk soğuk suya tutmak', correct: true }, { text: 'Buz basmak', correct: false }] },
           { scenario: 'Dışarıdayken deprem olursa nereye gidilmelidir?', options: [{ text: 'Binalardan uzak açık bir alana', correct: true }, { text: 'Ağaçların altına', correct: false }, { text: 'Binaların dibine', correct: false }] },
           { scenario: 'Afet sonrası iletişim nasıl sağlanmalıdır?', options: [{ text: 'Uzun telefon görüşmeleriyle', correct: false }, { text: 'Kısa SMS veya internet üzerinden', correct: true }, { text: 'Sürekli polisi arayarak', correct: false }] },
@@ -306,7 +306,7 @@ const translations = {
         submit: 'Başvuruyu Gönder'
       },
       faq: {
-        title: 'SSS & Bilgilendirme',
+        title: 'FAQ & Bilgilendirme',
         subtitle: 'Hayat Kurtaran Bilgiler',
         qa: [
           { q: 'Deprem anında ilk ne yapmalıyım?', a: 'Çök-Kapan-Tutun yöntemini uygulayın. Pencerelerden, merdivenlerden ve asansörlerden uzak durun.' },
@@ -529,7 +529,7 @@ const translations = {
     openModule: 'فتح الوحدة',
     back: 'رجوع',
     officialChannel: 'قناة الإعلانات الرسمية',
-    contactAfad: 'آفاد (AFAD)',
+    contactAfad: 'AFAD',
     contactKizilay: 'الهلال الأحمر التركي',
     contactKandilli: 'مرصد كانديلي',
     contactTitle: 'الجهات والاتصال',
@@ -574,7 +574,7 @@ const translations = {
         fireDetails: {
           classes: [
             { type: 'A (صلبة)', items: 'خشب، ورق، قماش', tools: 'ماء، مسحوق جاف (KKT)', forbidden: '' },
-            { type: 'B (سائلة)', items: 'بنزين، زيت، كحول', tools: 'رغوة، ثاني أكسيد الكربون، KKT', forbidden: 'لا تستخدم الماء أبداً!' },
+            { type: 'B (سائلة)', items: 'بنزين، زيت، كحول', tools: 'رغوة، تقسيم ثاني أكسيد الكربون، KKT', forbidden: 'لا تستخدم الماء أبداً!' },
             { type: 'C (غازية)', items: 'غاز مسال، غاز طبيعي', tools: 'KKT، ثاني أكسيد الكربون', forbidden: '' },
             { type: 'E (كهربائية)', items: 'محولات، أجهزة منزلية', tools: 'ثاني أكسيد الكربون، KKT', forbidden: 'لا تستخدم الماء أبداً!' },
             { type: 'F (مطبخ)', items: 'زيوت الطبخ', tools: 'بطانية حريق، مواد كيميائية خاصة', forbidden: 'لا تستخدم الماء أبداً!' }
@@ -649,7 +649,7 @@ const translations = {
           '📢 صفارة',
           '🔪 سكين متعدد الاستخدامات، مقص، شريط لاصق',
           '🧼 مجموعة نظافة (صابون، كمامات، معقم)',
-          '📄 نسخ من المستندات المهمة',
+          '📄 نسخة من المستندat المهمة',
           '🔑 مفاتيح احتياطية',
           '🧣 بطانيات وملابس إضافية',
           '💊 الأدوية المعتادة'
@@ -660,20 +660,20 @@ const translations = {
         simulationDesc: 'اختبار وعي بالكوارث من 15 سؤالاً',
         generalSimulation: [
           { scenario: 'ماذا يجب أن نفعل في الداخل أثناء الزلزال؟', options: [{ text: 'الركض للخارج', correct: false }, { text: 'انزل، تغط، وتمسك', correct: true }, { text: 'استخدام المصعد', correct: false }] },
-          { scenario: 'ما الذي يجب ألا تفعله إذا اندلع حريق دهون في المطبخ؟', options: [{ text: 'صب الماء عليه', correct: true }, { text: 'إيقاف تشغيل الموقد', correct: false }, { text: 'تغطيته ببطانية حريق', correct: false }] },
+          { scenario: 'ما الذي يجب ألا تفعله إذا اندلع حريق دهون في المطبخ？', options: [{ text: 'صب الماء عليه', correct: true }, { text: 'إيقاف تشغيل الموقد', correct: false }, { text: 'تغطيته ببطانية حريق', correct: false }] },
           { scenario: 'كيف تخرج من غرفة مليئة بالدخان؟', options: [{ text: 'الركض', correct: false }, { text: 'القفز', correct: false }, { text: 'الزحف', correct: true }] },
           { scenario: 'ما هي الخطوة الأولى عند التحذير من الفيضانات؟', options: [{ text: 'الذهاب إلى القبو', correct: false }, { text: 'الانتقال إلى أرض مرتفعة', correct: true }, { text: 'القيادة بعيداً', correct: false }] },
           { scenario: 'ماذا تفعل إذا حوصرت في السرير أثناء زلزال؟', options: [{ text: 'حماية الرأس بوسادة والتكور', correct: true }, { text: 'القفز من النافذة', correct: false }, { text: 'الركض إلى الدرج', correct: false }] },
-          { scenario: 'الخطوة الأولى عند استخدام طفاية حريق؟', options: [{ text: 'توجيه الخرطوم', correct: false }, { text: 'سحب الدبوس', correct: true }, { text: 'الضغط على المقبض', correct: false }] },
-          { scenario: 'ما الذي لا تحتاجه في حقيبة الكوارث？', options: [{ text: 'مصباح يدوي', correct: false }, { text: 'طبق خزفي', correct: true }, { text: 'صفارة', correct: false }] },
-          { scenario: 'هل من الآمن دخول مياه الفيضانات؟', options: [{ text: 'نعم، إذا كانت ضحلة', correct: false }, { text: 'لا، بسبب التيارات والأمراض', correct: true }, { text: 'فقط للسباحين', correct: false }] },
-          { scenario: 'كيف تعالج حرقاً طفيفاً في الإسعافات الأولية؟', options: [{ text: 'وضع معجون أسنان', correct: false }, { text: 'ماء جار بارد لمدة 10-15 دقيقة', correct: true }, { text: 'وضع الثلج', correct: false }] },
-          { scenario: 'أين تذهب إذا كنت في الخارج أثناء زلزال؟', options: [{ text: 'منطقة مفتوحة بعيداً عن المباني', correct: true }, { text: 'تحت الأشجار', correct: false }, { text: 'بجوار المباني', correct: false }] },
-          { scenario: 'كيف تتواصل بعد الكارثة؟', options: [{ text: 'مكالمات هاتفية طويلة', correct: false }, { text: 'رسائل نصية قصيرة أو تطبيقات إنترنت', correct: true }, { text: 'الاتصال بالشرطة مراراً', correct: false }] },
-          { scenario: 'إذا شعرت أن الباب ساخن أثناء الحريق، ماذا تفعل؟', options: [{ text: 'فتحه على الفور', correct: false }, { text: 'لا تفتحه، سد الأسفل', correct: true }, { text: 'ركل الباب لفتحه', correct: false }] },
-          { scenario: 'كيف توقف النزيف في الإسعافات الأولية؟', options: [{ text: 'صب ماء ساخن', correct: false }, { text: 'الضغط المباشر بقطعة قماش نظيفة', correct: true }, { text: 'تركه مفتوحاً', correct: false }] },
-          { scenario: 'هل يمكنك شرب ماء الصنبور مباشرة بعد الفيضان؟', options: [{ text: 'No، قد يكون ملوثاً', correct: true }, { text: 'نعم، إذا كان يتدفق', correct: false }, { text: 'فقط بدون غليان', correct: false }] },
-          { scenario: 'ماذا تفعل إذا اشتبهت في تسرب أول أكسيد الكربون؟', options: [{ text: 'النوم والراحة', correct: false }, { text: 'إغلاق النوافذ', correct: false }, { text: 'فتح النوافذ والإخلاء', correct: true }] }
+          { scenario: 'First step (PASS) when using a fire extinguisher?', options: [{ text: 'Aim the hose', correct: false }, { text: 'Pull the pin', correct: true }, { text: 'Squeeze the handle', correct: false }] },
+          { scenario: 'Which is NOT needed in a disaster kit?', options: [{ text: 'Flashlight', correct: false }, { text: 'Porcelain plate', correct: true }, { text: 'Whistle', correct: false }] },
+          { scenario: 'Is it safe to enter floodwaters?', options: [{ text: 'Yes, if it is shallow', correct: false }, { text: 'No, due to currents and diseases', correct: true }, { text: 'Only for swimmers', correct: false }] },
+          { scenario: 'How to treat a minor burn in first aid?', options: [{ text: 'Apply toothpaste', correct: false }, { text: 'Cool running water for 10-15 mins', correct: true }, { text: 'Apply ice', correct: false }] },
+          { scenario: 'Where to go if outdoors during an earthquake?', options: [{ text: 'Open area away from buildings', correct: true }, { text: 'Under trees', correct: false }, { text: 'Next to buildings', correct: false }] },
+          { scenario: 'How to communicate post-disaster?', options: [{ text: 'Long phone calls', correct: false }, { text: 'Short SMS or internet apps', correct: true }, { text: 'Calling police repeatedly', correct: false }] },
+          { scenario: 'If a door feels hot during a fire, what to do?', options: [{ text: 'Open it immediately', correct: false }, { text: 'Do not open, block the bottom', correct: true }, { text: 'Kick it open', correct: false }] },
+          { scenario: 'How to stop bleeding in first aid?', options: [{ text: 'Pour hot water', correct: false }, { text: 'Apply direct pressure with clean cloth', correct: true }, { text: 'Leave it open', correct: false }] },
+          { scenario: 'Can you drink tap water immediately after a flood?', options: [{ text: 'No, it might be contaminated', correct: true }, { text: 'Yes, if it flows', correct: false }, { text: 'Only without boiling', correct: false }] },
+          { scenario: 'What to do if carbon monoxide leak is suspected?', options: [{ text: 'Sleep and rest', correct: false }, { text: 'Close windows', correct: false }, { text: 'Open windows and evacuate', correct: true }] }
         ]
       },
       logistics: {
@@ -686,13 +686,13 @@ const translations = {
         title: 'الدعم والتطوع',
         subtitle: 'قوة المجتمع المستمرة',
         volunteerTitle: 'كن متطوعاً',
-        volunteerDesc: 'انضم إلى فرقنا وقف بجانبنا في جهود ما بعد الكارثة.',
+        volunteerDesc: 'انضم إلى فريقنا وقف بجانبنا في جهود ما بعد الكارثة.',
         formName: 'الاسم الكامل',
         formExpertise: 'مجال الخبرة',
         expertiseOptions: ['إسعافات أولية', 'خدمات لوجستية', 'بحث وإنقاذ', 'دعم نفسي واجتماعي'],
         volunteerTags: {
           health: 'صحة',
-          tech: 'ميداني',
+          tech: 'ميدان',
           logistics: 'لوجستي',
           language: 'لغة',
         },
@@ -712,10 +712,10 @@ const translations = {
           { q: 'ماذا يجب أن أفعل أولاً أثناء الزلزال؟', a: 'قم بتطبيق طريقة انزل-تغط-تمسك. ابق بعيداً عن النوافذ والسلالم والمصاعد.' },
           { q: 'ماذا يجب أن أضع في حقيبة الطوارئ؟', a: 'ماء، صفارة، مصباح يدوي، حقيبة إسعافات أولية، بطاريات احتياطية، بطانية، وطعام جاف لمدة 3 أيام.' },
           { q: 'ماذا يجب أن أفعل عندما أتلقى تحذيراً من فيضان؟', a: 'أوقف تشغيل الكهرباء والغاز، وانتقل إلى أرض مرتفعة على الفور. لا تحاول قيادة سيارتك.' },
-          { q: 'ماذا لو كانت الأبواب ساخنة أثناء الحريق؟', a: 'لا تفتح الباب. سد الدخان بقطع قماش مبللة تحت الباب واطلب المساعدة من النافذة.' },
+          { q: 'ماذا لو كانت الأبواب ساخنة أثناء الحريق؟', a: 'لا تفتح الباب. سد الدخان بقطع قماش مبللة تحت الباب واطلب المساعدة من can.' },
           { q: 'كيف يمكنني معرفة منطقة التجمع الخاصة بي؟', a: 'يمكنك معرفة أقرب نقطة آمنة لك باستخدام خدمة "الاستعلام عن منطقة التجمع في حالات الكوارث والطوارئ" على بوابة الحكومة الإلكترونية أو من خريطة "مناطق التجمع" في تطبيقنا.' },
-          { q: 'ماذا أفعل إذا حوصرت تحت الأنقاض？', a: 'حاول ألا تصاب بالذعر وحافظ على طاقتك. قم بتغطية فمك بقطعة قماش لتجنب ابتلاع الغبار. عندما تسمع صوتاً من الخارج، أعلن عن موقعك عن طريق ضرب الأنابيب أو إطلاق صفارة.' },
-          { q: 'ما هي المدة الزمنية للإبلاغ عن مطالبة DASK؟', a: 'يجب عليك إخطار DASK (عبر Alo 125 أو بوابة الحكومة الإلكترونية أو الموقع الإلكتروني) في غضون 15 يوم عمل كحد أقصى من تاريخ علمك بالضرر.' }
+          { q: 'ماذا أفعل إذا حوصرت تحت الأنقاض؟', a: 'Panik yapmamaya çalışın ve enerjinizi koruyun. Toz yutmamak için ağzınızı bir bezle kapatın. Dışarıdan ses duyduğunuzda borulara vurarak veya düdük çalarak yerinizi belli edin.' },
+          { q: 'ما هي المدة الزمنية للإبلاغ عن مطالبة DASK؟', a: 'Hasarı öğrendiğiniz tarihten itibaren en geç 15 iş günü içinde DASK\'a (Alo 125, e-Devlet veya web sitesi üzerinden) bildirim yapmanız gerekmektedir.' }
         ]
       }
     }
@@ -972,14 +972,21 @@ export default function App() {
     };
   }, []);
 
- const t = translations[lang];
+  const t = translations[lang];
 
+  // 🔌 OFFLINE-FIRST HİBRİT MİMARİ İSTEK TETİKLEYİCİSİ
   const handleAiSearch = async () => {
     if (!aiQuestion.trim()) return;
     setAiLoading(true);
     setAiAnswer('');
+
+    const isOnline = navigator.onLine;
+    const targetUrl = isOnline 
+      ? "https://api.turkiyeafetteelele.com/soru-sor" 
+      : "http://127.0.0.1:8000/soru-sor";
+
     try {
-      const response = await fetch('http://127.0.0.1:8000/soru-sor', {
+      const response = await fetch(targetUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ soru: aiQuestion })
@@ -1177,7 +1184,7 @@ export default function App() {
               className="space-y-6"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                ={modules.filter(m => m.id !== ModuleType.FAQ).map((m) => (
+                {modules.filter(m => m.id !== ModuleType.FAQ).map((m) => (
                   <button
                     key={m.id}
                     onClick={() => setActiveModule(m.id)}
@@ -1353,7 +1360,7 @@ export default function App() {
           </div>
         </div>
       </div>
-{/* Asistan Butonu (Sol Alt) */}
+      {/* Asistan Butonu (Sol Alt) */}
       <div className="fixed bottom-24 left-6 z-50 pointer-events-none">
         <button
           onClick={() => setIsAssistantOpen(true)}
@@ -1396,6 +1403,14 @@ export default function App() {
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
                       {lang === 'tr' ? 'Yapay Zeka Destekli' : 'AI Powered'}
                     </p>
+                    {/* ⚙️ ANLIK DURUM ROZETİ GÖSTERGESİ */}
+                    <div className="text-[10px] font-black uppercase tracking-wider mt-1">
+                      {navigator.onLine ? (
+                        <span className="text-green-600">🌐 Çevrimiçi Mod (Bulut Aktif)</span>
+                      ) : (
+                        <span className="text-red-500 animate-pulse">🔌 Acil Durum Modu (Offline Aktif)</span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <button
@@ -1505,7 +1520,7 @@ export default function App() {
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Tam Adres / Konum Detayı</label>
-                  <textarea required rows={3} placeholder="Mahalle, sokak, bina no, kat bilgisi..." className="w-full p-4 rounded-2xl border border-gray-100 bg-gray-50 font-bold text-sm outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+                  <input type="text" required placeholder="Mahalle, sokak, bina no, kat bilgisi..." className="w-full p-4 rounded-2xl border border-gray-100 bg-gray-50 font-bold text-sm outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
 
                 <button type="submit" className="w-full py-5 bg-blue-600 text-white font-black rounded-2xl shadow-xl shadow-blue-600/20 hover:scale-[1.01] active:scale-95 transition-all text-sm uppercase">
@@ -1822,9 +1837,9 @@ function ModuleView({ type, onBack, lang }: { type: ModuleType, onBack: () => vo
                   {/* Stabilize */}
                   <div className="bg-gray-50 rounded-3xl p-4 border border-gray-100 hover:border-gray-200 transition-all group">
                     <div className="aspect-square bg-white rounded-2xl mb-4 overflow-hidden shadow-sm flex items-center justify-center p-4 group-hover:scale-[1.02] transition-transform">
-                      <img src="/firstaid/stabilize.png" alt="Baş ve Omurga Sabitleme" className="w-full h-full object-contain" />
+                      <img src="/firstaid/stabilize.png" alt="Baş og Omurga Sabitleme" className="w-full h-full object-contain" />
                     </div>
-                    <h4 className="font-black text-gray-900 mb-2">{lang === 'tr' ? 'Baş ve Omurga Sabitleme' : 'Head and Spine Stabilization'}</h4>
+                    <h4 className="font-black text-gray-909 mb-2">{lang === 'tr' ? 'Baş ve Omurga Sabitleme' : 'Head and Spine Stabilization'}</h4>
                     <p className="text-sm text-gray-500 font-medium leading-relaxed">
                       {lang === 'tr' ? 'Travma durumunda kazazedenin başını ve boynunu hareket ettirmeyerek omurga hasarını önleyin.' : 'Prevent spine damage by keeping the victim\'s head and neck still during trauma.'}
                     </p>
@@ -1949,7 +1964,7 @@ function ModuleView({ type, onBack, lang }: { type: ModuleType, onBack: () => vo
           );
         }
 
-       return (
+        return (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {p.sections.map((section: any) => (
@@ -2347,7 +2362,6 @@ function VolunteerDashboard({ lang, disasterType }: { lang: 'tr' | 'en' | 'ar', 
 function VolunteerForm({ lang, disasterType }: { lang: 'tr' | 'en' | 'ar', disasterType?: string | null }) {
   const t = translations[lang].modules.support;
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-  const [volunteerType, setVolunteerType] = useState<'field' | 'remote' | null>(null);
 
   const toggleSkill = (skill: string) => {
     setSelectedSkills(prev =>
@@ -2380,7 +2394,6 @@ function VolunteerForm({ lang, disasterType }: { lang: 'tr' | 'en' | 'ar', disas
           <input type="email" placeholder="E-posta Adresi" className="p-4 rounded-2xl border border-gray-100 bg-gray-50 font-bold text-sm outline-none focus:ring-2 focus:ring-blue-500" required />
         </div>
 
-        {/* Volunteer Type Selection Removed as per request (only field volunteer remains) */}
         <div className="space-y-4">
           <label className="text-xs font-black text-gray-400 uppercase tracking-widest block">Gönüllülük Şekli</label>
           <div className="grid grid-cols-1 gap-3">
@@ -2927,7 +2940,7 @@ function FireDetailView({ lang, onBack }: { lang: 'tr' | 'en' | 'ar', onBack: ()
                   </div>
                   <h4 className="font-bold text-xs sm:text-sm leading-tight text-gray-800">{item.title}</h4>
                   <div className="mt-3 sm:mt-4 flex items-center gap-1.5 text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">
-                    İncele <ChevronLeft size={10} className="rotate-180" />
+                    İncele <ChevronLeft className="rotate-180" size={10} />
                   </div>
                 </button>
               );
@@ -3181,7 +3194,7 @@ function FAQModule({ lang }: { lang: 'tr' | 'en' | 'ar' }) {
         {(t.modules as any).faq.qa.map((item: any, i: number) => (
           <div key={i} className="border border-gray-100 rounded-[32px] bg-white overflow-hidden shadow-sm transition-all hover:shadow-md">
             <button
-              onClick={() => setOpenIndex(openIndex === i ? null : i)}
+              onClick={() => TumSatirlariKapat(i)}
               className="w-full p-6 text-left flex items-center justify-between gap-4"
             >
               <span className="font-bold text-gray-900 pr-4">{item.q}</span>
@@ -3208,4 +3221,8 @@ function FAQModule({ lang }: { lang: 'tr' | 'en' | 'ar' }) {
       </div>
     </div>
   );
+
+  function TumSatirlariKapat(i: number) {
+    setOpenIndex(openIndex === i ? null : i);
+  }
 }
