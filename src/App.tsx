@@ -29,7 +29,9 @@ import {
   Menu,
   X,
   HelpCircle,
-  ChevronDown
+  ChevronDown,
+  Mic,
+  MicOff
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapContainer, TileLayer, Marker, useMap, CircleMarker, Popup } from 'react-leaflet';
@@ -959,7 +961,10 @@ export default function App() {
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiAnswer, setAiAnswer] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceSupported, setVoiceSupported] = useState(true);
   const sirenRef = useRef<HTMLAudioElement | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     // Preload siren sound
@@ -972,17 +977,25 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    // Tarayıcının sesli tanıma desteğini kontrol et (Chrome/Edge/Safari destekler, Firefox desteklemez)
+    const SpeechRecognitionCtor =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    setVoiceSupported(!!SpeechRecognitionCtor);
+  }, []);
+
  const t = translations[lang];
 
-  const handleAiSearch = async () => {
-    if (!aiQuestion.trim()) return;
+  const handleAiSearch = async (overrideQuestion?: string) => {
+    const soru = (overrideQuestion ?? aiQuestion).trim();
+    if (!soru) return;
     setAiLoading(true);
     setAiAnswer('');
     try {
       const response = await fetch('http://127.0.0.1:8000/soru-sor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ soru: aiQuestion })
+        body: JSON.stringify({ soru })
       });
       const data = await response.json();
       setAiAnswer(data.cevap);
@@ -991,6 +1004,95 @@ export default function App() {
     } finally {
       setAiLoading(false);
     }
+  };
+
+  const speechLangMap: Record<'tr' | 'en' | 'ar', string> = {
+    tr: 'tr-TR',
+    en: 'en-US',
+    ar: 'ar-SA'
+  };
+
+  const startVoiceInput = () => {
+    const SpeechRecognitionCtor =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognitionCtor) {
+      alert(
+        lang === 'tr'
+          ? 'Tarayıcınız sesli arama özelliğini desteklemiyor. Lütfen Chrome veya Edge kullanmayı deneyin.'
+          : 'Your browser does not support voice search. Please try Chrome or Edge.'
+      );
+      return;
+    }
+
+    // Zaten dinliyorsa durdur (mikrofon butonuna tekrar basınca toggle davranışı)
+    if (isListening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+
+    // Önceden yarım kalmış bir instance varsa temizle (çift başlatmayı önler)
+    if (recognitionRef.current) {
+      try { recognitionRef.current.abort(); } catch (e) { /* yoksay */ }
+      recognitionRef.current = null;
+    }
+
+    const recognition = new SpeechRecognitionCtor();
+    recognition.lang = speechLangMap[lang];
+    // continuous=true: tarayıcı, siz konuşmaya başlayana kadar veya sonuç
+    // alınana kadar dinlemeyi anında kesmez. Kısa bir sessizlikte otomatik
+    // kapanma (varsayılan continuous=false davranışı) "hemen kapanma"
+    // şikayetinin en sık nedenidir.
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => {
+      setIsListening(false);
+      recognitionRef.current = null;
+    };
+    recognition.onerror = (event: any) => {
+      setIsListening(false);
+      recognitionRef.current = null;
+      const errMessages: Record<string, { tr: string; en: string }> = {
+        'not-allowed': {
+          tr: 'Mikrofon izni reddedildi. Tarayıcı adres çubuğundaki kilit/mikrofon simgesinden izin vermeniz gerekiyor.',
+          en: 'Microphone permission denied. Please allow it from the lock/mic icon in the address bar.'
+        },
+        'no-speech': {
+          tr: 'Herhangi bir konuşma algılanmadı. Lütfen tekrar deneyin.',
+          en: 'No speech was detected. Please try again.'
+        },
+        'audio-capture': {
+          tr: 'Mikrofon bulunamadı. Bir mikrofon bağlı olduğundan emin olun.',
+          en: 'No microphone was found. Please make sure a microphone is connected.'
+        },
+        'network': {
+          tr: 'Ağ hatası nedeniyle sesli tanıma başarısız oldu.',
+          en: 'Voice recognition failed due to a network error.'
+        }
+      };
+      const msg = errMessages[event.error];
+      console.error('Speech recognition error:', event.error);
+      if (msg) {
+        alert(lang === 'tr' ? msg.tr : msg.en);
+      } else if (event.error !== 'aborted') {
+        alert(
+          (lang === 'tr' ? 'Sesli tanıma hatası: ' : 'Voice recognition error: ') + event.error
+        );
+      }
+    };
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[event.results.length - 1][0].transcript;
+      setAiQuestion(transcript);
+      recognition.stop(); // sonucu aldık, dinlemeyi manuel olarak kapat
+      // Konuşma tanınır tanınmaz otomatik olarak soruyu sor
+      handleAiSearch(transcript);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
   };
 
   const shareLocation = () => {
@@ -1177,7 +1279,7 @@ export default function App() {
               className="space-y-6"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                ={modules.filter(m => m.id !== ModuleType.FAQ).map((m) => (
+                {modules.filter(m => m.id !== ModuleType.FAQ).map((m) => (
                   <button
                     key={m.id}
                     onClick={() => setActiveModule(m.id)}
@@ -1412,17 +1514,39 @@ export default function App() {
                   value={aiQuestion}
                   onChange={(e) => setAiQuestion(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAiSearch()}
-                  placeholder={t.aiPlaceholder}
+                  placeholder={isListening ? (lang === 'tr' ? 'Dinleniyor...' : lang === 'ar' ? 'الاستماع...' : 'Listening...') : t.aiPlaceholder}
                   className="flex-1 p-4 rounded-2xl border border-gray-200 bg-gray-50 font-bold text-xs sm:text-sm outline-none focus:ring-2 focus:ring-emerald-500 text-gray-900"
                 />
+                {voiceSupported && (
+                  <button
+                    onClick={startVoiceInput}
+                    title={lang === 'tr' ? 'Sesli Arama' : lang === 'ar' ? 'البحث الصوتي' : 'Voice Search'}
+                    className={`relative px-4 py-4 rounded-2xl font-black text-xs shadow-md transition-all flex items-center justify-center
+                      ${isListening ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
+                  >
+                    {isListening && (
+                      <span className="absolute inset-0 rounded-2xl bg-red-500 animate-ping opacity-40" />
+                    )}
+                    <span className="relative z-10">
+                      {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+                    </span>
+                  </button>
+                )}
                 <button
-                  onClick={handleAiSearch}
+                  onClick={() => handleAiSearch()}
                   disabled={aiLoading}
                   className="px-6 py-4 bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase shadow-md hover:bg-emerald-700 transition-all"
                 >
                   {aiLoading ? '...' : (lang === 'tr' ? 'SOR' : lang === 'ar' ? 'اسأل' : 'ASK')}
                 </button>
               </div>
+
+              {isListening && (
+                <div className="mt-3 flex items-center gap-2 text-[10px] font-black text-red-600 uppercase tracking-widest">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                  {lang === 'tr' ? 'Mikrofon dinliyor, konuşabilirsiniz...' : lang === 'ar' ? 'الميكروفون يستمع، يمكنك التحدث...' : 'Microphone is listening, you can speak...'}
+                </div>
+              )}
 
               {(aiLoading || aiAnswer) && (
                 <div className="mt-4 p-4 bg-gray-50 rounded-2xl border-l-4 border-emerald-600 max-h-[300px] overflow-y-auto">
