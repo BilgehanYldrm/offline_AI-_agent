@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# --- Python Sanal Ortam ve Önbellek Klasörleri ---
+venv/
+env/
+__pycache__/
+*.pyc

@@ -994,7 +994,7 @@ export default function App() {
 
     const isOnline = navigator.onLine;
     const targetUrl = isOnline 
-      ? "https://api.turkiyeafetteelele.com/soru-sor" 
+      ? "http://127.0.0.1:8000/soru-sor"
       : "http://127.0.0.1:8000/soru-sor";
 
     try {
@@ -1507,7 +1507,7 @@ export default function App() {
                     {/* ⚙️ ANLIK DURUM ROZETİ GÖSTERGESİ */}
                     <div className="text-[10px] font-black uppercase tracking-wider mt-1">
                       {navigator.onLine ? (
-                        <span className="text-green-600">🌐 Çevrimiçi Mod (Bulut Aktif)</span>
+                        <span className="text-green-600">🌐 Çevrimiçi Mod </span>
                       ) : (
                         <span className="text-red-500 animate-pulse">🔌 Acil Durum Modu (Offline Aktif)</span>
                       )}

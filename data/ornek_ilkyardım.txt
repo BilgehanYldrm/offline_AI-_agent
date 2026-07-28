@@ -1,27 +1,135 @@
-=== ENKAZ VE GÖÇÜK ALTINDA KALMA DURUMU ===
-Göçük veya enkaz altında kaldıysanız sakin olun ve şu hayati adımları uygulayın:
-1. Hareket kabiliyetiniz kısıtlıysa enerjinizi koruyun, gereksiz yere bağırmayın.
-2. Solunum yollarınızı korumak için ağzınızı ve burnunuzu bir giysiyle (kıyafet parçası) kapatın.
-3. Dışarıdan ses geldiğinde elinizin altındaki boru, duvar veya sert bir cisme düzenli aralıklarla vurun (Tık tık tık).
-4. Sesinizi sadece kurtarma ekiplerinin sesini duyduğunuzda ve yaklaştıklarında kullanın, bağırarak cevap verin.
+=== DEPREM ANINDA YAPILMASI GEREKENLER (ÇÖK-KAPAN-TUTUN) ===
+Deprem sarsıntısı hissettiğinizde ilk saniyelerde şu adımları uygulayın:
 
-=== ŞİDDETLİ KANAMA MÜDAHALESİ ===
-Şiddetli bir kanama durumunda saniyeler önemlidir, şu adımları uygulayın:
-1. Yaralıyı düz bir yere yatırın ve kanayan bölgeyi mümkünse kalp seviyesinden yukarıda tutun.
-2. Kanayan yerin üzerine temiz bir bez veya kıyafet parçası koyarak elinizle sertçe bastırın.
-3. Bez kanla dolsa bile kesinlikle kaldırmayın; üzerine ikinci bir temiz bez koyarak baskıya devam edin.
-4. Kanama durmuyorsa ve uzuv kopması varsa, yaranın üst kısmına sıkı bir bezle turnike (boğucu sargı) uygulayın.
+Bulunduğunuz yerde hemen çökün, sağlam bir masa veya sehpanın altına girin.
+Başınızı ve boynunuzu elleriniz veya bir yastıkla koruma altına alın.
+Masanın ayağını veya sabit bir eşyayı sıkıca tutun, sarsıntı bitene kadar yerinizden ayrılmayın.
+Pencere, cam, aynalı dolap ve devrilebilecek eşyalardan uzak durun; asansör kesinlikle kullanmayın.
 
-=== YANIK DURUMLARINDA İLK MÜDAHALE ===
-Yangın veya sıcak temas sonrası oluşan yanıklarda şu adımları izleyin:
-1. Yanık bölgesini derhal en az 15-20 dakika akan hafif soğuk (asla buzlu değil) suyun altında tutun.
-2. Yanmış alandaki giysileri deriyi kaldırmadan dikkatlice kesin, yapışan giysileri asla zorla çekmeyin.
-3. Yanık sonucu oluşan su kabarcıklarını KESİNLİKLE patlatmayın, mikrop kapmasına neden olur.
-4. Yanık üzerine yoğurt, diş macunu, salça veya krem gibi maddeler KESİNLİKLE sürmeyin; sadece temiz ve ıslak bir bezle örtün.
+=== DEPREM SONRASI BİNADAN TAHLİYE ===
+Sarsıntı durduktan sonra binadan çıkarken şu adımları izleyin:
 
-=== GAZ SIZINTISI VE KOKUSU ALINDIĞINDA ===
-Deprem veya afet sonrası gaz kokusu hissedildiğinde şu adımları uygulayın:
-1. Asla kibrit, çakmak çakmayın, elektrik düğmelerine dokunmayın (açıksa kapatmayın, kapalıysa açmayın).
-2. Ana gaz vanasını (şalteri) hemen sağa çevirerek kapatın.
-3. Ortamı havalandırmak için tüm kapı ve pencereleri hızla açın.
-4. Binayı derhal tahliye edin ve güvenli bir mesafeden 187 Doğalgaz Arıza hattını arayın.
+Ayakkabılarınızı giyin, cam kırıkları ve enkaz parçalarına dikkat edin.
+Merdivenleri kullanın, asansöre asla binmeyin.
+Çıkarken gaz ve elektrik ana şalterlerini kontrol imkanınız varsa kapatın.
+Bina dışında açık alanlara, bina duvarlarından ve elektrik direklerinden uzak bölgelere yönelin.
+
+=== KIRIK VE ÇIKIK MÜDAHALESİ ===
+Kırık veya çıkık şüphesi olan bir yaralı ile karşılaştığınızda şu adımları uygulayın:
+
+Yaralıyı kesinlikle gereksiz yere hareket ettirmeyin, kırık bölgeyi sabitlemeye çalışın.
+Kırık şüphesi olan uzvu, bulabildiğiniz düz bir tahta veya sert cisimle desteksiz bırakmadan sarın.
+Şişliği azaltmak için bölgeye doğrudan temas etmeyecek şekilde soğuk uygulama yapabilirsiniz.
+Açık kırık varsa (kemik dışarıda görünüyorsa) yarayı temiz bir bezle örtün, kemiği yerine oturtmaya çalışmayın.
+
+=== BAYILMA VE ŞOK BELİRTİLERİNDE MÜDAHALE ===
+Bir kişide bayılma veya şok belirtileri (solukluk, terleme, baygınlık hissi) fark ettiğinizde:
+
+Kişiyi sırt üstü yatırın ve bacaklarını kalp seviyesinden yukarı kaldırın.
+Yakasını, kemerini gevşetin ve rahat nefes almasını sağlayın.
+Ortamı havalandırın, çevresinde kalabalık oluşturmayın.
+Kişi kendine gelmiyorsa veya nefes almıyorsa derhal sağlık ekiplerine haber verin.
+
+=== KALP DURMASI VE TEMEL YAŞAM DESTEĞİ (CPR) ===
+Bir kişinin nefes almadığını ve bilincinin kapalı olduğunu fark ederseniz:
+
+Kişiyi sert bir zemine sırt üstü yatırın, bilincini kontrol etmek için omuzlarına dokunarak seslenin.
+Nefes almadığından eminseniz göğüs kemiğinin ortasına, dakikada 100-120 hızında, 5-6 cm derinlikte kalp masajı yapın.
+Her 30 göğüs basısından sonra imkanınız varsa 2 kez suni solunum uygulayın.
+Yardım gelene veya kişi kendine gelene kadar bu döngüye kesintisiz devam edin.
+
+=== SU BASKINI (SEL) DURUMUNDA HAREKET TARZI ===
+Bulunduğunuz bölgede sel veya su baskını yaşanıyorsa şu adımları uygulayın:
+
+Mümkünse hemen daha yüksek bir kata veya tepeye doğru hareket edin, bodrum katlarına inmeyin.
+Elektrikli cihazları ve ana elektrik şalterini derhal kapatın.
+Akan suyun içine kesinlikle girmeyin; 15 cm yüksekliğindeki su bile sizi düşürebilir, araçla geçmeye çalışmayın.
+Su seviyesi düşene kadar güvenli ve yüksek bir noktada bekleyin, yetkililerin tahliye çağrısını bekleyin.
+
+=== DEPREM ÇANTASINDA BULUNMASI GEREKENLER ===
+Deprem çantanızı hazırlarken şu temel maddeleri eksiksiz bulundurun:
+
+En az 3 günlük içme suyu, kuru gıda (bisküvi, konserve) ve konserve açacağı bulundurun.
+İlk yardım çantası, kişisel ilaçlarınız, düdük ve el feneri (pilleriyle birlikte) hazırlayın.
+Kimlik fotokopileri, önemli belgeler, biraz nakit para ve şarj edilebilir bir powerbank ekleyin.
+Mevsime uygun kıyafet, battaniye ve ıslak mendil gibi hijyen malzemelerini unutmayın.
+
+=== YANGIN ANINDA TAHLİYE VE MÜDAHALE ===
+Bulunduğunuz ortamda yangın çıktığını fark ettiğinizde şu adımları uygulayın:
+
+Dumandan etkilenmemek için mümkün olduğunca yerden yürüyün veya sürünerek ilerleyin.
+Kapıya elinizi değdirerek sıcaklığını kontrol edin; sıcaksa o kapıyı asla açmayın.
+Ağzınızı ve burnunuzu ıslak bir bezle kapatarak dumandan korunun.
+Asansör kullanmadan merdivenlerle en yakın çıkışa yönelin ve bina dışında toplanma alanına gidin.
+
+=== ELEKTRİK ÇARPMASI DURUMUNDA MÜDAHALE ===
+Bir kişinin elektrik çarptığına şahit olduğunuzda şu adımları uygulayın:
+
+Kişiye çıplak elle kesinlikle dokunmayın, önce elektrik kaynağını kapatın veya kesin.
+Elektrik kaynağını kapatamıyorsanız, kişiyi tahta veya lastik gibi iletken olmayan bir cisimle akım kaynağından uzaklaştırın.
+Kişinin bilincini ve solunumunu kontrol edin, gerekiyorsa kalp masajına başlayın.
+Yanık izleri varsa temiz bir bezle örtün ve derhal sağlık ekibine haber verin.
+
+=== HABERLEŞMENİN KESİLDİĞİ DURUMLARDA YAPILACAKLAR ===
+Afet sonrası telefon hatları ve internet kesildiğinde şu yolları deneyin:
+
+Sesli aramalar yerine SMS göndermeyi deneyin, SMS ağı daha az yoğunluk yaşar ve ulaşma ihtimali yüksektir.
+Aile bireyleriyle önceden belirlenmiş bir buluşma noktanız yoksa, güvenli ve bilinen bir alanda toplanmayı hedefleyin.
+Bölgenizdeki resmi anons ve duyurular için pilli veya şarjlı bir radyo bulundurun.
+Sosyal medyada "güvendeyim" bildirimlerini kullanarak yakınlarınıza bilgi vermeye çalışın.
+
+=== PSİKOLOJİK İLK YARDIM VE TRAVMA SONRASI DESTEK ===
+Afet yaşayan bir kişiyle iletişim kurarken şu yaklaşımı benimseyin:
+
+Kişiyi sakinleştirmeye çalışırken "sakin ol, bir şey yok" gibi durumu küçümseyen ifadelerden kaçının.
+Kişinin yanında kalarak güven verin, konuşmak istemiyorsa zorlamayın, dinlemeye hazır olduğunuzu belirtin.
+Basit ve net cümlelerle iletişim kurun, karmaşık bilgi yüklemesinden kaçının.
+Uyku, yeme ve temel ihtiyaçlarını karşılamasına yardımcı olun, profesyonel destek gerektiğinde yönlendirin.
+Tabii, kanama konusunu farklı türlere ayırarak genişletiyorum:
+=== BURUN KANAMASI MÜDAHALESİ ===
+Burun kanaması yaşayan biriyle karşılaştığınızda şu adımları uygulayın:
+
+Kişiyi oturtun ve başını hafifçe öne eğin, kesinlikle geriye yaslamayın (kan boğaza kaçabilir).
+Burun kanatlarını baş parmak ve işaret parmağınızla birleştirerek 10-15 dakika kesintisiz sıkın.
+Bu süre içinde ağızdan nefes almasını söyleyin, konuşmamasını ve burnunu karıştırmamasını sağlayın.
+Kanama 20 dakika içinde durmuyorsa veya kafa travması sonrası oluştuysa sağlık kuruluşuna başvurun.
+
+=== İÇ KANAMA ŞÜPHESİ DURUMUNDA MÜDAHALE ===
+Görünür bir yara olmadan iç kanama belirtileri (şişlik, morarma, sertleşme, solukluk, bilinç bulanıklığı) fark ettiğinizde:
+
+Yaralıyı kesinlikle hareket ettirmeyin, sabit ve rahat bir pozisyonda tutun.
+Ağızdan hiçbir şey (su, yiyecek, ilaç) vermeyin.
+Bacaklarını hafifçe yukarı kaldırarak şok riskine karşı önlem alın, üzerini örterek sıcak tutmaya çalışın.
+Vakit kaybetmeden sağlık ekiplerine haber verin, bilinç durumunu sürekli kontrol edin.
+
+=== KAFA TRAVMASI SONRASI KANAMA ===
+Baş bölgesinde darbe alan ve kanayan bir kişiyle karşılaştığınızda şu adımları uygulayın:
+
+Yaranın üzerine temiz bir bezle hafif baskı uygulayın, sert bastırmaktan kaçının (kırık olabilir).
+Kişiyi kesinlikle sarsmayın veya ani hareket ettirmeyin, boyun bölgesini sabit tutun.
+Bilinç durumunu, göz bebeklerinin tepkisini ve konuşma netliğini düzenli aralıklarla kontrol edin.
+Kusma, aşırı uyku hali veya bilinç kaybı varsa derhal sağlık ekibine haber verin.
+
+=== UZUV KOPMASI (AMPUTASYON) DURUMUNDA MÜDAHALE ===
+Bir kaza veya enkaz sonucu uzuv kopması yaşandığında şu adımları uygulayın:
+
+Kanamayı durdurmak için yara üzerine kalın, temiz bir bezle güçlü baskı uygulayın, gerekirse turnike kullanın.
+Kopan uzvu bulabilirseniz temiz bir bezle sarın, doğrudan buzla temas ettirmeden buzlu bir kabın içine koyun.
+Yaralıyı sakinleştirin, mümkünse bacaklarını yukarı kaldırarak şok riskine karşı önlem alın.
+Kopan uzuvla birlikte yaralıyı en kısa sürede sağlık ekiplerine ulaştırın, zaman kaybetmeyin.
+
+=== KUSARAK VEYA ÖKSÜREREK KAN GELMESİ DURUMU ===
+Bir kişi kan kusuyor veya öksürükle kan geliyorsa şu adımları uygulayın:
+
+Kişiyi yan yatırın, bu pozisyon kanın soluk borusuna kaçmasını ve boğulmayı engeller.
+Ağızdan hiçbir şey (yiyecek, içecek, ilaç) vermeyin.
+Kişiyi sakin tutmaya çalışın, panik durumun kanamayı artırabileceğini unutmayın.
+Bu durum ciddi bir iç sorunun belirtisi olabilir, vakit kaybetmeden acil sağlık desteği çağırın.
+=== HAFİF-ORTA ŞİDDETTE YARA KANAMASI MÜDAHALESİ ===
+Vücudun herhangi bir yerinde kesik veya yara nedeniyle kanama olduğunda şu adımları uygulayın:
+
+Ellerinizi mümkünse yıkayın veya temiz tutun, yaraya çıplak elle değil temiz bir bez veya eldivenle müdahale edin.
+Kanayan bölgeyi temiz su ile hafifçe yıkayarak varsa toprak, cam veya kir parçacıklarını uzaklaştırın.
+Temiz bir bez veya gazlı bezle bölgeye birkaç dakika sabit baskı uygulayın, sık sık kontrol etmek için bezi kaldırıp bakmayın.
+Kanama durduktan sonra yarayı temiz bir bandaj veya sargı beziyle örtün, günlük olarak temizleyip pansumanı yenileyin.
+Yara kızarır, şişer, ısınır veya irinlenirse ya da 10 dakika içinde kanama durmuyorsa sağlık kuruluşuna başvurun.
