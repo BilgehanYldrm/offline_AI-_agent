@@ -98,11 +98,14 @@ def txt_dosyasindan_blok_ara(kullanici_sorusu):
     return f"=== {bloklar[0][0].strip()} ===\n\n{bloklar[0][1].strip()}"
 
 @app.post("/soru-sor")
+@app.post("/ask")
+@app.post("/chat")
+@app.post("/api/chat")
 async def yapay_zeka_cevapla(istek: SoruIstegi):
-    # Ollama'nın uydurma metin üretmesini engellemek için doğrudan txt'deki BİREBİR içeriği dönüyoruz
     cevap = txt_dosyasindan_blok_ara(istek.soru)
-    return {"cevap": cevap}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Frontend hem 'cevap', hem 'response', hem de 'message' key'lerini bekliyor olabilir
+    return {
+        "cevap": cevap,
+        "response": cevap,
+        "message": cevap
+    }
