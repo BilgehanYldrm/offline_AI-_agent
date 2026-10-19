@@ -1,0 +1,150 @@
+[
+  {
+    "terms": [
+      "kop",
+      "amput",
+      "uzuv",
+      "koptu",
+      "kopma"
+    ],
+    "title": "UZUV KOPMASI (AMPUTASYON) DURUMUNDA MÜDAHALE"
+  },
+  {
+    "terms": [
+      "burun",
+      "burn"
+    ],
+    "title": "BURUN KANAMASI MÜDAHALESİ"
+  },
+  {
+    "terms": [
+      "iç kan",
+      "ic kan"
+    ],
+    "title": "İÇ KANAMA ŞÜPHESİ DURUMUNDA MÜDAHALE"
+  },
+  {
+    "terms": [
+      "kafa",
+      "beyin",
+      "başım",
+      "basım"
+    ],
+    "title": "KAFA TRAVMASI SONRASI KANAMA"
+  },
+  {
+    "terms": [
+      "kus",
+      "öksür",
+      "oksur"
+    ],
+    "title": "KUSARAK VEYA ÖKSÜREREK KAN GELMESİ DURUMU"
+  },
+  {
+    "terms": [
+      "bayıl",
+      "bayil",
+      "şok",
+      "sok"
+    ],
+    "title": "BAYILMA VE ŞOK BELİRTİLERİNDE MÜDAHALE"
+  },
+  {
+    "terms": [
+      "cpr",
+      "kalp",
+      "masaj",
+      "nefes"
+    ],
+    "title": "KALP DURMASI VE TEMEL YAŞAM DESTEĞİ (CPR)"
+  },
+  {
+    "terms": [
+      "sel",
+      "su bask"
+    ],
+    "title": "SU BASKINI (SEL) DURUMUNDA HAREKET TARZI"
+  },
+  {
+    "terms": [
+      "çanta",
+      "canta"
+    ],
+    "title": "DEPREM ÇANTASINDA BULUNMASI GEREKENLER"
+  },
+  {
+    "terms": [
+      "elektrik",
+      "çarp",
+      "carp"
+    ],
+    "title": "ELEKTRİK ÇARPMASI DURUMUNDA MÜDAHALE"
+  },
+  {
+    "terms": [
+      "yangın",
+      "yangin",
+      "duman",
+      "alev"
+    ],
+    "title": "YANGIN ANINDA TAHLİYE VE MÜDAHALE"
+  },
+  {
+    "terms": [
+      "psikolojik",
+      "travma",
+      "kork"
+    ],
+    "title": "PSİKOLOJİK İLK YARDIM VE TRAVMA SONRASI DESTEK"
+  },
+  {
+    "terms": [
+      "kırık",
+      "kirik",
+      "çıkık",
+      "cikik"
+    ],
+    "title": "KIRIK VE ÇIKIK MÜDAHALESİ"
+  },
+  {
+    "terms": [
+      "haber",
+      "sms",
+      "telefon",
+      "iletişim",
+      "internet"
+    ],
+    "title": "HABERLEŞMENİN KESİLDİĞİ DURUMLARDA YAPILACAKLAR"
+  },
+  {
+    "terms": [
+      "tahliye",
+      "bina",
+      "çık",
+      "cik"
+    ],
+    "title": "DEPREM SONRASI BİNADAN TAHLİYE"
+  },
+  {
+    "terms": [
+      "deprem",
+      "sarsıntı",
+      "sarsinti",
+      "çök"
+    ],
+    "title": "DEPREM ANINDA YAPILMASI GEREKENLER (ÇÖK-KAPAN-TUTUN)"
+  },
+  {
+    "terms": [
+      "kes",
+      "kan",
+      "yara",
+      "kanama",
+      "kanıyor",
+      "kanayan",
+      "kesik",
+      "kesil"
+    ],
+    "title": "HAFİF-ORTA ŞİDDETTE YARA KANAMASI MÜDAHALESİ"
+  }
+]

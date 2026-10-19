@@ -12,3 +12,11 @@ venv/
 env/
 __pycache__/
 *.pyc
+.venv/
+.vite/
+.pytest_cache/
+.ruff_cache/
+playwright-report/
+test-results/
+*.db
+models/

@@ -1,3 +1,10 @@
+import { ASSEMBLY_POINTS } from './data/assemblyPoints';
+import { translations } from './data/translations';
+import { askQuestion } from './services/assistant';
+import { DemoNotice } from './components/DemoNotice';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { useState, useEffect, useRef } from 'react';
 import {
   AlertTriangle,
@@ -41,9 +48,9 @@ import 'leaflet/dist/leaflet.css';
 // Fix for default marker icon in Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
 });
 
 const DigitalClock = () => {
@@ -56,675 +63,7 @@ const DigitalClock = () => {
 };
 
 // Mock Assembly Points Data
-const ASSEMBLY_POINTS = [
-  // İstanbul
-  { id: 'ist1', city: 'İstanbul', district: 'Kadıköy', address: 'Moda Sahil Parkı Yanı, No:12', pos: [40.9901, 29.0236] as [number, number], types: ['earthquake', 'flood'] },
-  { id: 'ist2', city: 'İstanbul', district: 'Beşiktaş', address: 'Abbasağa Parkı İçi, Beşiktaş', pos: [41.0428, 29.0075] as [number, number], types: ['earthquake'] },
-  { id: 'ist3', city: 'İstanbul', district: 'Üsküdar', address: 'Fethi Paşa Korusu Girişi', pos: [41.0267, 29.0167] as [number, number], types: ['earthquake', 'fire'] },
-  { id: 'ist4', city: 'İstanbul', district: 'Avcılar', address: 'Denizköşkler Sahil Parkı', pos: [40.9801, 28.7175] as [number, number], types: ['earthquake'] },
-  { id: 'ist5', city: 'İstanbul', district: 'Esenyurt', address: 'Recep Tayyip Erdoğan Parkı', pos: [41.0343, 28.6801] as [number, number], types: ['earthquake', 'flood'] },
-  { id: 'ist6', city: 'İstanbul', district: 'Başakşehir', address: 'Sular Vadisi Etkinlik Alanı', pos: [41.0967, 28.8000] as [number, number], types: ['earthquake', 'flood'] },
-  { id: 'ist7', city: 'İstanbul', district: 'Maltepe', address: 'Maltepe Etkinlik Alanı B Kapısı', pos: [40.9248, 29.1311] as [number, number], types: ['earthquake'] },
-  { id: 'ist8', city: 'İstanbul', district: 'Pendik', address: 'Pendik Sahil Meydanı', pos: [40.8769, 29.2311] as [number, number], types: ['earthquake'] },
-  { id: 'ist9', city: 'İstanbul', district: 'Kartal', address: 'Kartal Meydanı, Sahil Yolu', pos: [40.8886, 29.1853] as [number, number], types: ['earthquake'] },
-  { id: 'ist10', city: 'İstanbul', district: 'Fatih', address: 'Yedikule Hisarı Yanı', pos: [41.0125, 28.9482] as [number, number], types: ['earthquake'] },
-  { id: 'ist11', city: 'İstanbul', district: 'Şişli', address: 'Maçka Demokrasi Parkı Üst Giriş', pos: [41.0601, 28.9876] as [number, number], types: ['earthquake', 'fire'] },
-
-  // Ankara
-  { id: 'ank1', city: 'Ankara', district: 'Çankaya', address: 'Kuğulu Park Yanı, Tunalı', pos: [39.9208, 32.8541] as [number, number] },
-  { id: 'ank2', city: 'Ankara', district: 'Kızılay', address: 'Güvenpark Meydanı', pos: [39.9201, 32.8531] as [number, number] },
-  { id: 'ank3', city: 'Ankara', district: 'Etimesgut', address: 'Türk Beyleri Kent Meydanı', pos: [39.9498, 32.6636] as [number, number] },
-  { id: 'ank4', city: 'Ankara', district: 'Keçiören', pos: [39.9781, 32.8647] as [number, number], address: 'Kalaba Kent Meydanı' },
-  { id: 'ank5', city: 'Ankara', district: 'Yenimahalle', pos: [39.9546, 32.8011] as [number, number], address: 'Yenimahalle Belediyesi Yanı' },
-  { id: 'ank6', city: 'Ankara', district: 'Mamak', pos: [39.9419, 32.9011] as [number, number], address: '75. Yıl Parkı İçi' },
-
-  // İzmir
-  { id: 'izm1', city: 'İzmir', district: 'Konak', address: 'Gündoğdu Meydanı, Kordon', pos: [38.4192, 27.1287] as [number, number] },
-  { id: 'izm2', city: 'İzmir', district: 'Karşıyaka', address: 'Karşıyaka İskele Meydanı', pos: [38.4552, 27.1278] as [number, number] },
-  { id: 'izm3', city: 'İzmir', district: 'Bornova', pos: [38.4632, 27.2163] as [number, number], address: 'Aşık Veysel Rekreasyon Alanı' },
-  { id: 'izm4', city: 'İzmir', district: 'Buca', pos: [38.3845, 27.1632] as [number, number], address: 'Hasanağa Bahçesi Tarihi Giriş' },
-
-  // Antalya
-  { id: 'ant1', city: 'Antalya', district: 'Muratpaşa', address: 'Karaalioğlu Parkı İçi', pos: [36.8848, 30.7056] as [number, number] },
-  { id: 'ant2', city: 'Antalya', district: 'Kepez', address: 'Dokuma Park Alanı', pos: [36.9200, 30.6900] as [number, number] },
-  { id: 'ant3', city: 'Antalya', district: 'Konyaaltı', address: 'Hurma Mah. Semt Pazarı Alanı', pos: [36.8624, 30.6315] as [number, number] },
-
-  // Bursa
-  { id: 'bur1', city: 'Bursa', district: 'Osmangazi', address: 'Merinos Kültür Parkı', pos: [40.1824, 29.0611] as [number, number] },
-  { id: 'bur2', city: 'Bursa', district: 'Nilüfer', address: 'Üç Fidan Parkı', pos: [40.2100, 28.9500] as [number, number] },
-  { id: 'bur3', border: 'Bursa', district: 'Yıldırım', address: 'Kaplıkaya Cazibe Merkezi Yanı', pos: [40.1834, 29.0911] as [number, number] },
-
-  // Others
-  { id: 'adi1', city: 'Adıyaman', district: 'Merkez', address: 'Mimar Sinan Parkı', pos: [37.7648, 38.2763] as [number, number] },
-  { id: 'hat1', city: 'Hatay', district: 'Antakya', address: 'Atatürk Parkı Meydanı', pos: [36.2023, 36.1606] as [number, number] },
-  { id: 'hat2', city: 'Hatay', district: 'İskenderun', address: 'Anıt Alanı Sahil', pos: [36.5833, 36.1667] as [number, number] },
-  { id: 'kah1', city: 'Kahramanmaraş', district: 'Pazarcık', address: 'Hükümet Konağı Önü', pos: [37.5858, 37.5133] as [number, number] },
-  { id: 'kah2', city: 'Kahramanmaraş', district: 'Onikişubat', address: 'Kılavuzlu Mesire Alanı', pos: [37.5900, 36.9200] as [number, number] },
-  { id: 'gaz1', city: 'Gaziantep', district: 'Şahinbey', address: '100. Yıl Kültür Parkı', pos: [37.0500, 37.3800] as [number, number] },
-  { id: 'gaz2', city: 'Gaziantep', district: 'Şehitkamil', address: 'Anıt Park İçi', pos: [37.0800, 37.3700] as [number, number] },
-  { id: 'ada1', city: 'Adana', district: 'Seyhan', address: 'Merkez Park Amfi Tiyatro Yanı', pos: [36.9914, 35.3308] as [number, number] },
-  { id: 'ada2', city: 'Adana', district: 'Çukurova', address: 'Doğal Park Girişi', pos: [37.0400, 35.3000] as [number, number] },
-  { id: 'kon1', city: 'Konya', district: 'Selçuklu', address: 'Kılıçarslan Şehir Meydanı', pos: [37.8748, 32.4931] as [number, number] },
-  { id: 'kon2', city: 'Konya', district: 'Meram', address: 'Meram Bağları Girişi', pos: [37.8500, 32.4500] as [number, number] },
-  { id: 'diy1', city: 'Diyarbakır', district: 'Sur', address: 'Dağkapı Meydanı', pos: [37.9100, 40.2400] as [number, number] },
-  { id: 'diy2', city: 'Diyarbakır', district: 'Kayapınar', address: 'Park Orman İçi', pos: [37.9400, 40.1800] as [number, number] },
-  { id: 'sam1', city: 'Samsun', district: 'Atakum', address: 'Çobanlı İskelesi Meydanı', pos: [41.3300, 36.2700] as [number, number] },
-  { id: 'sam2', city: 'Samsun', district: 'İlkadım', address: 'Cumhuriyet Meydanı Anıt Yanı', pos: [41.2800, 36.3300] as [number, number] },
-  { id: 'tra1', city: 'Trabzon', district: 'Ortahisar', address: 'Atatürk Alanı (Meydan Parkı)', pos: [41.0000, 39.7200] as [number, number] },
-  { id: 'kay1', city: 'Kayseri', district: 'Melikgazi', address: 'Cumhuriyet Meydanı Saat Kulesi Yanı', pos: [38.7200, 35.4800] as [number, number] },
-  { id: 'esk1', city: 'Eskişehir', district: 'Tepebaşı', address: 'Şelale Park Yanı', pos: [39.7800, 30.5200] as [number, number] },
-  { id: 'koc1', city: 'Kocaeli', district: 'İzmit', address: 'Sekapark Etkinlik Alanı', pos: [40.7600, 29.9300] as [number, number] },
-  { id: 'koc2', city: 'Kocaeli', district: 'Gebze', address: '15 Temmuz Milli İrade Kent Meydanı', pos: [40.8000, 29.4300] as [number, number] },
-  { id: 'mgr1', city: 'Muğla', district: 'Bodrum', address: 'Bodrum Belediye Meydanı', pos: [37.0300, 27.4300] as [number, number] },
-  { id: 'mgr2', city: 'Muğla', district: 'Menteşe', address: 'Muğla Kent Meydanı', pos: [37.2100, 28.3600] as [number, number] },
-];
-
 // --- Translations ---
-
-const translations = {
-  tr: {
-    appName: 'TÜRKİYE AFETTE EL ELE',
-    shareLocation: 'Konum Paylaş',
-    locationRequesting: 'Konum Alınıyor...',
-    locationSuccess: 'Konum Paylaşıldı',
-    locationError: 'Hata Oluştu',
-    openModule: 'Modülü Aç',
-    back: 'Geri',
-    officialChannel: 'Resmi Duyuru Kanalı',
-    contactAfad: 'AFAD',
-    contactKizilay: 'Türk Kızılay',
-    contactKandilli: 'Kandilli Rasathanesi',
-    contactTitle: 'İletişim & Kurumlar',
-    contact: 'Destek Hattı',
-    reportInstantLocation: 'ACİL DURUM',
-    selectDisaster: 'Afet Türünü Seçin',
-    earthquake: 'Deprem',
-    flood: 'Sel / Su Baskını',
-    fire: 'Orman Yangını',
-    sirenPlaying: 'Siren Çalıyor',
-    sirenStopped: 'Siren Durduruldu',
-    aiPlaceholder: 'Yapay zeka asistanına afet and ilk yardım hakkında sorun... (Örn: kanama durumunda ne yapmalıyım)',
-    aiTitle: '🤖 Yapay Zeka Destekli Afet Asistanı',
-    aiThinking: 'Düşünüyor ve veritabanını tarıyor...',
-    aiError: 'Yapay zeka motoruna bağlanılamadı. Lütfen Python (FastAPI) sunucunuzun çalıştığından emin olun.',
-    modules: {
-      emergency: {
-        title: 'Afet Durumu & Canlı Takip',
-        subtitle: 'Afet Anı Koordinasyon',
-        liveTrack: 'CANLI TAKİP',
-        lastMinute: 'Son Dakika Duyuruları',
-        gatheringAreas: 'Toplanma Alanları',
-        searchPlaceholder: 'Mahalle/İlçe ara...',
-        nearestZone: 'En yakın güvenli bölge 400m mesafededir.',
-        news1: "Kandilli: Ege Denizi'nde 4.2 büyüklüğünde sarsıntı kaydedildi.",
-        news2: 'AFAD: Deprem anında "Çök-Kapan-Tutun" hareketini unutmayın.',
-      },
-      preparation: {
-        title: 'Hazırlık & Eğitim',
-        subtitle: 'Afet Öncesi Bilinçlendirme',
-        sections: [
-          { id: 'kit', title: 'Afet Çantası', desc: 'Acil durum malzemeleri listesi' },
-          { id: 'firstaid', title: 'İlk Yardım Temelleri', desc: 'Hayat kurtaran temel müdahaleler' },
-          { id: 'during_disaster', title: 'Afet Sırasında Yapılması Gerekenler', desc: 'Anında müdahale adımları' },
-          { id: 'building', title: 'Bina Dayanıklılık Sorgulaması', desc: 'Yapı güvenliği kontrol adımları' },
-          { id: 'fire', title: 'Yangına İlk Müdahale', desc: 'Söndürme ve tahliye teknikleri' }
-        ],
-        fireMenu: [
-          { id: 'classes', title: 'Yangın Sınıfları', icon: 'Flame' },
-          { id: 'checklist', title: 'Ev Tipi Ekipman Listesi', icon: 'ListChecks' }
-        ],
-        fireDetails: {
-          classes: [
-            { type: 'A (Katı)', items: 'Ahşap, Kağıt, Kumaş', tools: 'Su, Kuru Kimyevi Toz (KKT)', forbidden: '' },
-            { type: 'B (Sıvı)', items: 'Benzin, Yağ, Alkol', tools: 'Köpük, CO2, KKT', forbidden: 'Asla su dökülmez!' },
-            { type: 'C (Gaz)', items: 'LPG, Doğalgaz', tools: 'KKT, CO2', forbidden: '' },
-            { type: 'E (Elektrik)', items: 'Trafolar, Beyaz Eşyalar', tools: 'CO2, KKT', forbidden: 'Asla su dökülmez!' },
-            { type: 'F (Mutfak)', items: 'Yağ Yangınları', tools: 'Yangın Battaniyesi, Özel Kimyasal', forbidden: 'Asla su dökülmez!' }
-          ],
-          passSteps: [
-            { key: 'P (Pull)', title: 'Çek', desc: 'Güvenlik pimini çekin.' },
-            { key: 'A (Aim)', title: 'Nişan Al', desc: 'Hortumu ateşin tabanına doğrultun.' },
-            { key: 'S (Squeeze)', title: 'Sık', desc: 'Mandalları sonuna kadar sıkın.' },
-            { key: 'S (Sweep)', title: 'Süpür', desc: 'Alevlerin üzerine süpürerek müdahale edin.' }
-          ],
-          smokeGuide: [
-            { title: '"Eğil ve Sürün" Kuralı', desc: 'Temiz hava tabana yakındır. Dumanlı odada yerde ilerleyin.' },
-            { title: 'Kapı Kontrolü', desc: 'Kapıyı açmadan önce elinizin tersiyle sıcaklığı kontrol edin.' }
-          ],
-          equipmentCheck: [
-            '6 kg Kuru Kimyevi Tozlu söndürücü (Güncel)',
-            'Mutfakta yangın battaniyesi',
-            'Koridorda duman dedektörü',
-            'Gaz kaçak dedektörü'
-          ]
-        },
-        buildingMenu: [
-          { id: 'assessment', title: 'İnteraktif Öz-Değerlendirme Testi', icon: 'ClipboardCheck' },
-          { id: 'soil', title: 'Adres Bazlı Çevre ve Zemin Bilgisi', icon: 'MapPin' },
-          { id: 'report', title: 'Yapısal İhlal Bildirim Butonu', icon: 'AlertTriangle' },
-          { id: 'roadmap', title: '"Sorgulama Sonrası" Yol Haritası', icon: 'Map' }
-        ],
-        buildingDetails: {
-          assessment: {
-            questions: [
-              { id: 1, text: 'Binanızın giriş katında dükkan var mı ve buradaki duvarlar kaldırılmış mı?', type: 'boolean' },
-              { id: 2, text: 'Bodrum katta kolon demirlerinde paslanma veya beton dökülmesi görüyor musunuz?', type: 'boolean' },
-              { id: 3, text: 'Kirişlerde "X" şeklinde çatlaklar var mı?', type: 'boolean' },
-              { id: 4, text: 'Binanız 1999 yılından önce mi yapıldı?', type: 'boolean' }
-            ],
-            resultWarning: 'Binanız gözlemsel olarak risk faktörleri barındırıyor. This test resmi bir mühendislik analizi yerine geçmez, profesyonel inceleme yaptırmanızı öneririz.'
-          },
-          soil: {
-            fayDist: 'Binanızın bulunduğu konumun en yakın aktif fay hattına uzaklığı: ~3.4 km',
-            soilType: 'Zemin Yapısı: Alüvyon / Orta Sert (Z3)',
-            regulations: [
-              { year: '1999 Öncesi', desc: '1975 ve 1998 yönetmelikleri geçerliydi. Standartlar günümüze göre oldukça düşüktü.' },
-              { year: '1999-2018', desc: 'Deprem sonrası revize edilen 2007 yönetmeliği ile denetimler arttırıldı.' },
-              { year: '2018 Sonrası', desc: 'En güncel og sıkı Türkiye Bina Deprem Yönetmeliği kriterlerine tabidir.' }
-            ]
-          },
-          report: {
-            title: 'Yapısal İhlal Bildirimi',
-            desc: 'Giris katı dükkanlarda kolon kesme veya kaçak tadilat şüphesi durumunda bildirim yapın.',
-            links: [
-              { name: 'e-Devlet Bildirim Portalı', icon: 'Globe' }
-            ]
-          },
-          roadmap: {
-            steps: [
-              { title: 'Resmi Başvuru', desc: 'Belediyelerin "Hızlı Bina Taraması" veya Bakanlık onaylı kuruluşlara başvura bilirsiniz.' },
-              { title: 'Karot Testi Nedir?', desc: 'Beton kalitesini ölçmek için numune alma işlemidir. Uzman eşliğinde yapılmalıdır.' },
-              { title: 'Hukuki Haklar', desc: 'Kentsel dönüşüm kira yardımı ve devlet destekli güçlendirme kredileri hakkınız mevcuttur.' }
-            ]
-          },
-          emergency_local: {
-            gatheringArea: 'En Yakın Toplanma Alanı: Cumhuriyet Parkı (150m)',
-            daskInfo: 'DASK poliçenizin güncelliğini sorgulamayı unutmayın. Afet anında teminat altındasınız.'
-          }
-        },
-        kitChecklist: [
-          '💧 Su (Kişi başı günlük 4 litre)',
-          '🥫 Dayanıklı gıdalar (Konserve, bisküvi vb.)',
-          '🩹 İlk yardım çantası',
-          '📻 Pilli radyo ve yedek piller',
-          '🔦 El feneri ve yedek piller',
-          '📢 Düdük',
-          '🔪 Çakı, makas, koli bandı',
-          '🧼 Hijyen paketi (Sabun, maske, dezenfektan)',
-          '📄 Önemli belge fotokopileri',
-          '🔑 Yedek anahtarlar',
-          '🧣 Battaniye ve yedek kıyafet',
-          '💊 Düzenli kullanılan ilaçlar'
-        ],
-        videoTitle: 'Eğitim Videoları',
-        videoDesc: 'Temel protokoller.',
-        simulationTitle: 'Panik Anı Simülasyonu',
-        simulationDesc: '15 soruluk afet farkındalık testi',
-        generalSimulation: [
-          { scenario: 'Deprem anında bina içindeysek ne yapmalıyız?', options: [{ text: 'Dışarı koşmalıyız', correct: false }, { text: 'Çök-Kapan-Tutun pozisyonu almalıyız', correct: true }, { text: 'Asansöre binmeliyiz', correct: false }] },
-          { scenario: 'Mutfakta yağ yangını çıkarsa ne yapılmamalıdır?', options: [{ text: 'Üzerine su dökmek', correct: true }, { text: 'Ocağı kapatmak', correct: false }, { text: 'Yangın battaniyesi örtmek', correct: false }] },
-          { scenario: 'Dumanla kaplı bir odadan nasıl çıkılır?', options: [{ text: 'Koşarak', correct: false }, { text: 'Zıplayarak', correct: false }, { text: 'Emekleyerek', correct: true }] },
-          { scenario: 'Sel uyarısı geldiğinde ilk olarak ne yapılmalıdır?', options: [{ text: 'Bodruma inilmelidir', correct: false }, { text: 'Yüksek bir yere çıkılmalıdır', correct: true }, { text: 'Araçla yola çıkılmalıdır', correct: false }] },
-          { scenario: 'Depremde yatakta yakalanırsak ne yapmalıyız?', options: [{ text: 'Yastıkla başı koruyup cenin pozisyonu almak', correct: true }, { text: 'Pencereden atlamak', correct: false }, { text: 'Merdivenlere koşmak', correct: false }] },
-          { scenario: 'Yangın söndürme cihazı kullanırken ilk adım (PASS) nedir?', options: [{ text: 'Hortumu yöneltmek', correct: false }, { text: 'Pimi çekmek', correct: true }, { text: 'Mandala basmak', correct: false }] },
-          { scenario: 'Afet çantasında bulunması gerekmeyen şey nedir?', options: [{ text: 'El feneri', correct: false }, { text: 'Porselen tabak', correct: true }, { text: 'Düdük', correct: false }] },
-          { scenario: 'Sel sularının içine girmek güvenli midir?', options: [{ text: 'Evet, su seviyesi düşükse', correct: false }, { text: 'Hayır, akıntı og hastalık riski vardır', correct: true }, { text: 'Sadece yüzme bilenler için', correct: false }] },
-          { scenario: 'İlk yardımda birinci derece yanığa ne uygulanır?', options: [{ text: 'Diş macunu sürmek', correct: false }, { text: '10-15 dk soğuk suya tutmak', correct: true }, { text: 'Buz basmak', correct: false }] },
-          { scenario: 'Dışarıdayken deprem olursa nereye gidilmelidir?', options: [{ text: 'Binalardan uzak açık bir alana', correct: true }, { text: 'Ağaçların altına', correct: false }, { text: 'Binaların dibine', correct: false }] },
-          { scenario: 'Afet sonrası iletişim nasıl sağlanmalıdır?', options: [{ text: 'Uzun telefon görüşmeleriyle', correct: false }, { text: 'Kısa SMS veya internet üzerinden', correct: true }, { text: 'Sürekli polisi arayarak', correct: false }] },
-          { scenario: 'Yangında odadan çıkarken kapı sıcaksa ne yapılmalıdır?', options: [{ text: 'Hemen açılmalıdır', correct: false }, { text: 'Açılmamalı, kapı altı kapatılmalıdır', correct: true }, { text: 'Tekme atılmalıdır', correct: false }] },
-          { scenario: 'İlk yardımda kanama nasıl durdurulur?', options: [{ text: 'Yaraya sıcak su dökerek', correct: false }, { text: 'Temiz bezle direkt baskı uygulayarak', correct: true }, { text: 'Yarayı açık bırakarak', correct: false }] },
-          { scenario: 'Sel sonrası musluk suyu hemen içilebilir mi?', options: [{ text: 'Hayır, kirlenmiş olabilir', correct: true }, { text: 'Evet, musluktan akıyorsa temizdir', correct: false }, { text: 'Sadece kaynatmadan içilir', correct: false }] },
-          { scenario: 'Karbonmonoksit sızıntısı şüphesinde ne yapılmalıdır?', options: [{ text: 'Uyuyup dinlenmek', correct: false }, { text: 'Pencereleri kapatmak', correct: false }, { text: 'Hemen camları açıp dışarı çıkmak', correct: true }] }
-        ]
-      },
-      logistics: {
-        title: 'İhtiyaç & Lojistik',
-        subtitle: 'Stok Takibi & Ulaşım Rotaları',
-        statVehicles: 'Aktif Araçlar',
-        createRoute: 'Rota Oluştur',
-      },
-      support: {
-        title: 'Destek & Gönüllülük',
-        subtitle: 'Sürekli Topluluk Gücü',
-        volunteerTitle: 'Gönüllü Olun',
-        volunteerDesc: 'Ekiplerimize katılarak afet sonrası çalışmalarda yanımızda olun.',
-        formName: 'Ad Soyad',
-        formExpertise: 'Uzmanlık Alanı',
-        expertiseOptions: ['İlk Yardım', 'Lojistik', 'Arama Kurtarma', 'Psikososyal Destek'],
-        volunteerTags: {
-          health: 'Sağlık',
-          tech: 'Saha',
-          logistics: 'Lojistik',
-          language: 'Dil',
-        },
-        fieldOptions: {
-          field: 'Saha Gönüllüsü',
-        },
-        tasksTitle: 'Gönüllü Panosu',
-        tasksSubtitle: 'Anlık Görev Borsası',
-        donationTitle: 'Güvenli Bağış Kanalları',
-        donationSubtitle: 'Resmi Kurum Köprüsü',
-        submit: 'Başvuruyu Gönder'
-      },
-      faq: {
-        title: 'FAQ & Bilgilendirme',
-        subtitle: 'Hayat Kurtaran Bilgiler',
-        qa: [
-          { q: 'Deprem anında ilk ne yapmalıyım?', a: 'Çök-Kapan-Tutun yöntemini uygulayın. Pencerelerden, merdivenlerden ve asansörlerden uzak durun.' },
-          { q: 'Afet çantasına neler koymalıyım?', a: 'Su, düdük, fener, ilk yardım seti, yedek piller, battaniye ve 3 günlük kuru gıda.' },
-          { q: 'Sel baskını uyarısı aldığımda ne yapmalıyım?', a: 'Elektrik ve doğalgazı kapatın, hemen yüksek bölgelere çıkın. Aracınızı kullanmaya çalışmayın.' },
-          { q: 'Yangın anında kapılar sıcaksa ne yapmalıyım?', a: 'Kapıyı açmayın. Dumanı engellemek için kapı altlarını ıslak bezle kapatın ve pencereden yardım isteyin.' },
-          { q: 'Toplanma alanımı nasıl öğrenebilirim?', a: 'E-Devlet üzerinden \'Afet ve Acil Durum Toplanma Alanı Sorgulama\' hizmetini kullanarak veya uygulamamızdaki \'Toplanma Alanları\' haritasından size en yakın güvenli noktayı öğrenebilirsiniz.' },
-          { q: 'Enkaz altında kalırsam ne yapmalıyım?', a: 'Panik yapmamaya çalışın ve enerjinizi koruyun. Toz yutmamak için ağzınızı bir bezle kapatın. Dışarıdan ses duyduğunuzda borulara vurarak veya düdük çalarak yerinizi belli edin.' },
-          { q: 'DASK hasar bildirimi ne kadar sürede yapılmalıdır?', a: 'Hasarı öğrendiğiniz tarihten itibaren en geç 15 iş günü içinde DASK\'a (Alo 125, e-Devlet veya web sitesi üzerinden) bildirim yapmanız gerekmektedir.' }
-        ]
-      }
-    }
-  },
-  en: {
-    appName: 'TURKEY DISASTER RELIEF',
-    shareLocation: 'Share Location',
-    locationRequesting: 'Getting Location...',
-    locationSuccess: 'Location Shared',
-    locationError: 'Error Occurred',
-    openModule: 'Open Module',
-    back: 'Back',
-    officialChannel: 'Official Announcement Channel',
-    contactAfad: 'AFAD',
-    contactKizilay: 'Turkish Red Crescent',
-    contactKandilli: 'Kandilli Observatory',
-    contactTitle: 'Contact & Institutions',
-    contact: 'Support Line',
-    reportInstantLocation: 'EMERGENCY',
-    selectDisaster: 'Select Disaster Type',
-    earthquake: 'Earthquake',
-    flood: 'Flood',
-    fire: 'Wildfire',
-    sirenPlaying: 'Siren Playing',
-    sirenStopped: 'Siren Stopped',
-    aiPlaceholder: 'Ask AI assistant about disaster and first aid... (e.g., what to do in case of bleeding)',
-    aiTitle: '🤖 AI-Powered Disaster Assistant',
-    aiThinking: 'Thinking and scanning local knowledge base...',
-    aiError: 'Could not connect to AI engine. Make sure your Python server is running.',
-    modules: {
-      emergency: {
-        title: 'Disaster Status & Live Track',
-        subtitle: 'Disaster Moment Coordination',
-        liveTrack: 'LIVE TRACK',
-        lastMinute: 'Last Minute Announcements',
-        gatheringAreas: 'Gathering Areas',
-        searchPlaceholder: 'Search District...',
-        nearestZone: 'Nearest safe zone is 400m away.',
-        news1: 'Kandilli: 4.2 magnitude tremor recorded in the Aegean Sea.',
-        news2: "AFAD: Remember 'Drop-Cover-Hold' during an earthquake.",
-      },
-      preparation: {
-        title: 'Nav & Prep',
-        subtitle: 'Pre-Disaster Awareness',
-        sections: [
-          { id: 'kit', title: 'Disaster Kit', desc: 'Emergency supply list' },
-          { id: 'firstaid', title: 'First Aid Basics', desc: 'Life-saving interventions' },
-          { id: 'during_disaster', title: 'What to Do During a Disaster', desc: 'Immediate response steps' },
-          { id: 'building', title: 'Building Resilience', desc: 'Structure safety check steps' },
-          { id: 'fire', title: 'Fire First Response', desc: 'Extinguishing & evacuation' }
-        ],
-        fireMenu: [
-          { id: 'classes', title: 'Fire Classes', icon: 'Flame' },
-          { id: 'checklist', title: 'Home Equipment List', icon: 'ListChecks' }
-        ],
-        fireDetails: {
-          classes: [
-            { type: 'A (Solid)', items: 'Wood, Paper, Cloth', tools: 'Water, Dry Powder (KKT)', forbidden: '' },
-            { type: 'B (Liquid)', items: 'Petrol, Oil, Alcohol', tools: 'Foam, CO2, KKT', forbidden: 'Never use water!' },
-            { type: 'C (Gas)', items: 'LPG, Natural Gas', tools: 'KKT, CO2', forbidden: '' },
-            { type: 'E (Electric)', items: 'Transformers, Appliances', tools: 'CO2, KKT', forbidden: 'Never use water!' },
-            { type: 'F (Kitchen)', items: 'Cooking Oils', tools: 'Fire Blanket, Special Chemical', forbidden: 'Never use water!' }
-          ],
-          passSteps: [
-            { key: 'P (Pull)', title: 'Pull', desc: 'Pull the safety pin.' },
-            { key: 'A (Aim)', title: 'Aim', desc: 'Aim at the base of the fire.' },
-            { key: 'S (Squeeze)', title: 'Squeeze', desc: 'Squeeze the lever completely.' },
-            { key: 'S (Sweep)', title: 'Sweep', desc: 'Sweep from side to side over the flames.' }
-          ],
-          smokeGuide: [
-            { title: '"Low and Crawl" Rule', desc: 'Clean air is near the floor. Advance on the ground.' },
-            { title: 'Door Control', desc: 'Check the temperature with the back of your hand before opening.' }
-          ],
-          equipmentCheck: [
-            '6 kg Dry Chemical fire extinguisher (Updated)',
-            'Fire blanket in the kitchen',
-            'Smoke detector in the hallway',
-            'Gas leak detector'
-          ]
-        },
-        buildingMenu: [
-          { id: 'assessment', title: 'Interactive Self-Assessment Test', icon: 'ClipboardCheck' },
-          { id: 'soil', title: 'Address-Based Soil Info', icon: 'MapPin' },
-          { id: 'report', title: 'Structural Violation Report', icon: 'AlertTriangle' },
-          { id: 'roadmap', title: '"Post-Query" Roadmap', icon: 'Map' }
-        ],
-        buildingDetails: {
-          assessment: {
-            questions: [
-              { id: 1, text: 'Are there shops on the ground floor and have any walls been removed?', type: 'boolean' },
-              { id: 2, text: 'Do you see corrosion in columns or concrete peeling in the basement?', type: 'boolean' },
-              { id: 3, text: 'Are there "X" shaped cracks in the beams?', type: 'boolean' },
-              { id: 4, text: 'Was your building built before 1999?', type: 'boolean' }
-            ],
-            resultWarning: 'Your building shows observational risk factors. This test is not a official engineering analysis. We recommend professional inspection.'
-          },
-          soil: {
-            fayDist: 'Distance to the nearest active fault line: ~3.4 km',
-            soilType: 'Soil Structure: Alluvium / Medium Hard (Z3)',
-            regulations: [
-              { year: 'Pre-1999', desc: '1975 and 1998 regulations were in effect. Standards were significantly lower than today.' },
-              { year: '1999-2018', desc: '2007 regulation revised after the earthquake increased inspections.' },
-              { year: 'Post-2018', desc: 'Subject to the most current and strict Turkey Building Earthquake Regulation criteria.' }
-            ]
-          },
-          report: {
-            title: 'Structural Violation Report',
-            desc: 'Report suspected column cutting or illegal renovations in ground floor shops.',
-            links: [
-              { name: 'e-Government Portal', icon: 'Globe' }
-            ]
-          },
-          roadmap: {
-            steps: [
-              { title: 'Official Application', desc: 'Apply to municipal "Fast Building Scan" or Ministry-approved institutions.' },
-              { title: 'What is Core Testing?', desc: 'A process of taking samples to measure concrete quality. Must be done by experts.' },
-              { title: 'Legal Rights', desc: 'Urban transformation rent assistance and state-supported reinforcement loans are available.' }
-            ]
-          },
-          emergency_local: {
-            gatheringArea: 'Nearest Assembly Area: Cumhuriyet Park (150m)',
-            daskInfo: "Don't forget to query your DASK policy status. You are covered in case of disaster."
-          }
-        },
-        kitChecklist: [
-          '💧 Water (4 liters per person per day)',
-          '🥫 Non-perishable food (Canned, crackers etc.)',
-          '🩹 First aid kit',
-          '📻 Battery-powered radio and extra batteries',
-          '🔦 Flashlight and extra batteries',
-          '📢 Whistle',
-          '🔪 Multi-tool knife, scissors, duct tape',
-          '🧼 Hygiene kit (Soap, masks, sanitizer)',
-          '📄 Copies of important documents',
-          '🔑 Spare keys',
-          '🧣 Blankets and extra clothing',
-          '💊 Regular medications'
-        ],
-        videoTitle: 'Training Videos',
-        videoDesc: 'Basic protocols.',
-        simulationTitle: 'Panic Simulation',
-        simulationDesc: '15-question disaster awareness test',
-        generalSimulation: [
-          { scenario: 'What should we do indoors during an earthquake?', options: [{ text: 'Run outside', correct: false }, { text: 'Drop, Cover, and Hold On', correct: true }, { text: 'Use the elevator', correct: false }] },
-          { scenario: 'What should NOT be done if a grease fire starts in the kitchen?', options: [{ text: 'Pour water on it', correct: true }, { text: 'Turn off the stove', correct: false }, { text: 'Cover with a fire blanket', correct: false }] },
-          { scenario: 'How to exit a smoke-filled room?', options: [{ text: 'Running', correct: false }, { text: 'Jumping', correct: false }, { text: 'Crawling', correct: true }] },
-          { scenario: 'What is the first step during a flood warning?', options: [{ text: 'Go to the basement', correct: false }, { text: 'Move to higher ground', correct: true }, { text: 'Drive away', correct: false }] },
-          { scenario: 'What to do if caught in bed during an earthquake?', options: [{ text: 'Protect head with pillow and curl up', correct: true }, { text: 'Jump out the window', correct: false }, { text: 'Run to the stairs', correct: false }] },
-          { scenario: 'First step (PASS) when using a fire extinguisher?', options: [{ text: 'Aim the hose', correct: false }, { text: 'Pull the pin', correct: true }, { text: 'Squeeze the handle', correct: false }] },
-          { scenario: 'Which is NOT needed in a disaster kit?', options: [{ text: 'Flashlight', correct: false }, { text: 'Porcelain plate', correct: true }, { text: 'Whistle', correct: false }] },
-          { scenario: 'Is it safe to enter floodwaters?', options: [{ text: 'Yes, if it is shallow', correct: false }, { text: 'No, due to currents and diseases', correct: true }, { text: 'Only for swimmers', correct: false }] },
-          { scenario: 'How to treat a minor burn in first aid?', options: [{ text: 'Apply toothpaste', correct: false }, { text: 'Cool running water for 10-15 mins', correct: true }, { text: 'Apply ice', correct: false }] },
-          { scenario: 'Where to go if outdoors during an earthquake?', options: [{ text: 'Open area away from buildings', correct: true }, { text: 'Under trees', correct: false }, { text: 'Next to buildings', correct: false }] },
-          { scenario: 'How to communicate post-disaster?', options: [{ text: 'Long phone calls', correct: false }, { text: 'Short SMS or internet apps', correct: true }, { text: 'Calling police repeatedly', correct: false }] },
-          { scenario: 'If a door feels hot during a fire, what to do?', options: [{ text: 'Open it immediately', correct: false }, { text: 'Do not open, block the bottom', correct: true }, { text: 'Kick it open', correct: false }] },
-          { scenario: 'How to stop bleeding in first aid?', options: [{ text: 'Pour hot water', correct: false }, { text: 'Apply direct pressure with clean cloth', correct: true }, { text: 'Leave it open', correct: false }] },
-          { scenario: 'Can you drink tap water immediately after a flood?', options: [{ text: 'No, it might be contaminated', correct: true }, { text: 'Yes, if it flows', correct: false }, { text: 'Only without boiling', correct: false }] },
-          { scenario: 'What to do if carbon monoxide leak is suspected?', options: [{ text: 'Sleep and rest', correct: false }, { text: 'Close windows', correct: false }, { text: 'Open windows and evacuate', correct: true }] }
-        ]
-      },
-      logistics: {
-        title: 'Needs & Logistics',
-        subtitle: 'Stock Tracking & Transport Routes',
-        statVehicles: 'Active Vehicles',
-        createRoute: 'Create Route',
-      },
-      support: {
-        title: 'Support & Volunteering',
-        subtitle: 'Continuous Community Strength',
-        volunteerTitle: 'Become a Volunteer',
-        volunteerDesc: 'Join our teams and stand by us in post-disaster efforts.',
-        formName: 'Full Name',
-        formExpertise: 'Area of Expertise',
-        expertiseOptions: ['First Aid', 'Logistics', 'Search & Rescue', 'Psychosocial Support'],
-        volunteerTags: {
-          health: 'Health',
-          tech: 'Field',
-          logistics: 'Logistics',
-          language: 'Language',
-        },
-        fieldOptions: {
-          field: 'Field Volunteer',
-        },
-        tasksTitle: 'Volunteer Board',
-        tasksSubtitle: 'Instant Task Market',
-        donationTitle: 'Verified Donation Channels',
-        donationSubtitle: 'Official Institution Bridge',
-        submit: 'Submit Application'
-      },
-      faq: {
-        title: 'FAQ & Information',
-        subtitle: 'Life Saving Info',
-        qa: [
-          { q: 'What should I do first during an earthquake?', a: 'Apply the Drop-Cover-Hold on method. Stay away from windows, stairs, and elevators.' },
-          { q: 'What should I put in an emergency kit?', a: 'Water, whistle, flashlight, first aid kit, spare batteries, blanket, and 3 days of dry food.' },
-          { q: 'What should I do when I receive a flood warning?', a: 'Turn off electricity and gas, move to higher ground immediately. Do not try to drive your vehicle.' },
-          { q: 'What if the doors are hot during a fire?', a: 'Do not open the door. Block smoke with wet cloths under the door and call for help from the window.' },
-          { q: 'How can I find out my assembly area?', a: 'You can find your nearest safe point by using the \'Disaster and Emergency Assembly Area Inquiry\' service on e-Government or from the \'Assembly Areas\' map in our application.' },
-          { q: 'What should I do if I am trapped under rubble?', a: 'Try not to panic and conserve your energy. Cover your mouth with a cloth to avoid swallowing dust. When you hear sounds from outside, tap on pipes or blow a whistle to signal your location.' },
-          { q: 'How long do I have to report a DASK claim?', a: 'You must notify DASK (via Alo 125, e-Government or website) within 15 working days at the latest from the date you learned of the damage.' }
-        ]
-      }
-    }
-  },
-  ar: {
-    appName: 'تركيا يداً بيد في الكوارث',
-    shareLocation: 'مشاركة الموقع',
-    locationRequesting: 'جاري تحديد الموقع...',
-    locationSuccess: 'تمت مشاركة الموقع',
-    locationError: 'حدث خطأ',
-    openModule: 'فتح الوحدة',
-    back: 'رجوع',
-    officialChannel: 'قناة الإعلانات الرسمية',
-    contactAfad: 'AFAD',
-    contactKizilay: 'الهلال الأحمر التركي',
-    contactKandilli: 'مرصد كانديلي',
-    contactTitle: 'الجهات والاتصال',
-    contact: 'خط الدعم',
-    reportInstantLocation: 'حالة طوارئ',
-    selectDisaster: 'اختر نوع الكارثة',
-    earthquake: 'زلزال',
-    flood: 'فيضان',
-    fire: 'حريق غابة',
-    sirenPlaying: 'صفارة الإنذار تعمل',
-    sirenStopped: 'توقفت صفارة الإنذار',
-    aiPlaceholder: 'اسأل مساعد الذكاء الاصطناعي حول الكوارث والإسعافات الأولية...',
-    aiTitle: '🤖 مساعد الطوارئ الذكي المحتلي',
-    aiThinking: 'يفكر الذكاء الاصطناعي الآن ويقوم بمسح قواعد البيانات المحلية...',
-    aiError: 'فشل الاتصال بمحرك الذكاء الاصطناعي المحلي. يرجى تشغيل خادم ووردبريس/بايثون.',
-    modules: {
-      emergency: {
-        title: 'حالة الكارثة والتتبع المباشر',
-        subtitle: 'تنسيق لحظة الكارثة',
-        liveTrack: 'تتبع مباشر',
-        lastMinute: 'إعلانات اللحظة الأخيرة',
-        gatheringAreas: 'مناطق التجمع',
-        searchPlaceholder: 'ابحث عن منطقة...',
-        nearestZone: 'أقرب منطقة آمنة تبعد 400 متر.',
-        news1: 'كانديلي: تسجيل هزة بقوة 4.2 في بحر إيجة.',
-        news2: 'آفاد: تذكر "انزل-تغط-تمسك" أثناء الزلزال.',
-      },
-      preparation: {
-        title: 'الاستعداد والتعليم',
-        subtitle: 'الوعي قبل الكارثة',
-        sections: [
-          { id: 'kit', title: 'حقيبة الكوارث', desc: 'قائمة مستلزمات الطوارئ' },
-          { id: 'firstaid', title: 'أسasيات الإسعافات الأولية', desc: 'تدخلات منقذة للحياة' },
-          { id: 'during_disaster', title: 'ماذا تفعل أثناء الكارثة', desc: 'خطوات الاستجابة الفورية' },
-          { id: 'building', title: 'مقاومة المباني', desc: 'خطوات فحص سلامة الهيكل' },
-          { id: 'fire', title: 'الاستجابة الأولى للحريق', desc: 'الإطفاء والإخلاء' }
-        ],
-        fireMenu: [
-          { id: 'classes', title: 'فئات الحرائق', icon: 'Flame' },
-          { id: 'checklist', title: 'قائمة المعدات المنزلية', icon: 'ListChecks' }
-        ],
-        fireDetails: {
-          classes: [
-            { type: 'A (صلبة)', items: 'خشب، ورق، قماش', tools: 'ماء، مسحوق جاف (KKT)', forbidden: '' },
-            { type: 'B (سائلة)', items: 'بنزين، زيت، كحول', tools: 'رغوة، تقسيم ثاني أكسيد الكربون، KKT', forbidden: 'لا تستخدم الماء أبداً!' },
-            { type: 'C (غازية)', items: 'غاز مسال، غاز طبيعي', tools: 'KKT، ثاني أكسيد الكربون', forbidden: '' },
-            { type: 'E (كهربائية)', items: 'محولات، أجهزة منزلية', tools: 'ثاني أكسيد الكربون، KKT', forbidden: 'لا تستخدم الماء أبداً!' },
-            { type: 'F (مطبخ)', items: 'زيوت الطبخ', tools: 'بطانية حريق، مواد كيميائية خاصة', forbidden: 'لا تستخدم الماء أبداً!' }
-          ],
-          passSteps: [
-            { key: 'P (اسحب)', title: 'اسحب', desc: 'اسحب مسمار الأمان.' },
-            { key: 'A (وجه)', title: 'وجه', desc: 'وجه نحو قاعدة النار.' },
-            { key: 'S (اضغط)', title: 'اضغط', desc: 'اضغط على المقبض بالكامل.' },
-            { key: 'S (امسح)', title: 'امسح', desc: 'امسح من جانب إلى آخر فوق ألسنة اللهب.' }
-          ],
-          smokeGuide: [
-            { title: 'قاعدة "منخفض وازحف"', desc: 'الهواء النظيف بالقرب من الأرض. تقدم على الأرض.' },
-            { title: 'التحكم في الباب', desc: 'افحص درجة الحرارة بظهر يدك قبل الفتح.' }
-          ],
-          equipmentCheck: [
-            'طفاية حريق مسحوق جاف 6 كجم (محدثة)',
-            'بطانية حريق في المطبخ',
-            'كاشf دخان في الردهة',
-            'كاشف تسرب الغاز'
-          ]
-        },
-        buildingMenu: [
-          { id: 'assessment', title: 'اختبار التقييم الذاتي التفاعلي', icon: 'ClipboardCheck' },
-          { id: 'soil', title: 'معلومات التربة حسب العنوان', icon: 'MapPin' },
-          { id: 'report', title: 'الإبلاغ عن انتهاك هيكلي', icon: 'AlertTriangle' },
-          { id: 'roadmap', title: 'خارطة طريق "ما بعد الاستعلام"', icon: 'Map' }
-        ],
-        buildingDetails: {
-          assessment: {
-            questions: [
-              { id: 1, text: 'هل توجد متاجر في الطابق الأرضي وهل تم إزالة أي جدران؟', type: 'boolean' },
-              { id: 2, text: 'هل ترى تآكلاً في الأعمدة أو تقشراً للخرسانة في القبو؟', type: 'boolean' },
-              { id: 3, text: 'هل توجد شقوق على شكل "X" في العوارض؟', type: 'boolean' },
-              { id: 4, text: 'هل تم بناء المبنى الخاص بك قبل عام 1999؟', type: 'boolean' }
-            ],
-            resultWarning: 'يظهر المبنى الخاص بك عوامل خطر ملحوظة. هذا الاختبار ليس تحليلاً هندسياً رسمياً. نوصي بالفحص الاحترافي.'
-          },
-          soil: {
-            fayDist: 'المسافة إلى أقرب خط صدع نشط: ~3.4 كم',
-            soilType: 'هيكل التربة: طمي / صلب متوسط (Z3)',
-            regulations: [
-              { year: 'قبل 1999', desc: 'كانت لوائح 1975 و 1998 سارية. كانت المعايير أقل بكثير من اليوم.' },
-              { year: '1999-2018', desc: 'زادت لائحة 2007 المنقحة بعد الزلزال من عمليات التفتيش.' },
-              { year: 'بعد 2018', desc: 'يخضع لأحدث وأكثر المعايير صرامة من لائحة زلازل المباني في تركيا.' }
-            ]
-          },
-          report: {
-            title: 'الإبلاغ عن انتهاك هيكلي',
-            desc: 'أبلغ عن قطع الأعمدة المشتبه به أو التجديدات غير القانونية في متاجر الطابق الأرضي.',
-            links: [
-              { name: 'بوابة الحكومة الإلكترونية', icon: 'Globe' }
-            ]
-          },
-          roadmap: {
-            steps: [
-              { title: 'تطبيق رسمي', desc: 'تقدم بطلب إلى "المسح السريع للمباني" التابع للبلدية أو المؤسسات المعتمدة من الوزارة.' },
-              { title: 'ما هو اختبار اللب؟', desc: 'عملية أخذ عينات لقياس جودة الخرسانة. يجب أن يتم من قبل خبراء.' },
-              { title: 'الحقوق القانونية', desc: 'تتوفر مساعدة الإيجار للتحول الحضري وقروض التعزيز المدعومة من الدولة.' }
-            ]
-          },
-          emergency_local: {
-            gatheringArea: 'أقرب منطقة تجمع: حديقة الجمهورية (150م)',
-            daskInfo: 'لا تنس الاستعلام عن حالة بوليصة DASK الخاصة بك. أنت مغطى في حالة وقوع كارثة.'
-          }
-        },
-        kitChecklist: [
-          '💧 ماء (4 لتر للشخص في اليوم)',
-          '🥫 طعام غير قابل للتلف (معلبات، بسكويت إلخ)',
-          '🩹 حقيبة إسعافات أولية',
-          '📻 راديو يعمل بالبطارية وبطاريات إضافية',
-          '🔦 مصباح يدوي وبطاريات إضافية',
-          '📢 صفارة',
-          '🔪 سكين متعدد الاستخدامات، مقص، شريط لاصق',
-          '🧼 مجموعة نظافة (صابون، كمامات، معقم)',
-          '📄 نسخة من المستندat المهمة',
-          '🔑 مفاتيح احتياطية',
-          '🧣 بطانيات وملابس إضافية',
-          '💊 الأدوية المعتادة'
-        ],
-        videoTitle: 'مقاطع فيديو تعليمية',
-        videoDesc: 'البروتوكولات الأساسية.',
-        simulationTitle: 'محاكاة الذعر',
-        simulationDesc: 'اختبار وعي بالكوارث من 15 سؤالاً',
-        generalSimulation: [
-          { scenario: 'ماذا يجب أن نفعل في الداخل أثناء الزلزال؟', options: [{ text: 'الركض للخارج', correct: false }, { text: 'انزل، تغط، وتمسك', correct: true }, { text: 'استخدام المصعد', correct: false }] },
-          { scenario: 'ما الذي يجب ألا تفعله إذا اندلع حريق دهون في المطبخ？', options: [{ text: 'صب الماء عليه', correct: true }, { text: 'إيقاف تشغيل الموقد', correct: false }, { text: 'تغطيته ببطانية حريق', correct: false }] },
-          { scenario: 'كيف تخرج من غرفة مليئة بالدخان؟', options: [{ text: 'الركض', correct: false }, { text: 'القفز', correct: false }, { text: 'الزحف', correct: true }] },
-          { scenario: 'ما هي الخطوة الأولى عند التحذير من الفيضانات؟', options: [{ text: 'الذهاب إلى القبو', correct: false }, { text: 'الانتقال إلى أرض مرتفعة', correct: true }, { text: 'القيادة بعيداً', correct: false }] },
-          { scenario: 'ماذا تفعل إذا حوصرت في السرير أثناء زلزال؟', options: [{ text: 'حماية الرأس بوسادة والتكور', correct: true }, { text: 'القفز من النافذة', correct: false }, { text: 'الركض إلى الدرج', correct: false }] },
-          { scenario: 'First step (PASS) when using a fire extinguisher?', options: [{ text: 'Aim the hose', correct: false }, { text: 'Pull the pin', correct: true }, { text: 'Squeeze the handle', correct: false }] },
-          { scenario: 'Which is NOT needed in a disaster kit?', options: [{ text: 'Flashlight', correct: false }, { text: 'Porcelain plate', correct: true }, { text: 'Whistle', correct: false }] },
-          { scenario: 'Is it safe to enter floodwaters?', options: [{ text: 'Yes, if it is shallow', correct: false }, { text: 'No, due to currents and diseases', correct: true }, { text: 'Only for swimmers', correct: false }] },
-          { scenario: 'How to treat a minor burn in first aid?', options: [{ text: 'Apply toothpaste', correct: false }, { text: 'Cool running water for 10-15 mins', correct: true }, { text: 'Apply ice', correct: false }] },
-          { scenario: 'Where to go if outdoors during an earthquake?', options: [{ text: 'Open area away from buildings', correct: true }, { text: 'Under trees', correct: false }, { text: 'Next to buildings', correct: false }] },
-          { scenario: 'How to communicate post-disaster?', options: [{ text: 'Long phone calls', correct: false }, { text: 'Short SMS or internet apps', correct: true }, { text: 'Calling police repeatedly', correct: false }] },
-          { scenario: 'If a door feels hot during a fire, what to do?', options: [{ text: 'Open it immediately', correct: false }, { text: 'Do not open, block the bottom', correct: true }, { text: 'Kick it open', correct: false }] },
-          { scenario: 'How to stop bleeding in first aid?', options: [{ text: 'Pour hot water', correct: false }, { text: 'Apply direct pressure with clean cloth', correct: true }, { text: 'Leave it open', correct: false }] },
-          { scenario: 'Can you drink tap water immediately after a flood?', options: [{ text: 'No, it might be contaminated', correct: true }, { text: 'Yes, if it flows', correct: false }, { text: 'Only without boiling', correct: false }] },
-          { scenario: 'What to do if carbon monoxide leak is suspected?', options: [{ text: 'Sleep and rest', correct: false }, { text: 'Close windows', correct: false }, { text: 'Open windows and evacuate', correct: true }] }
-        ]
-      },
-      logistics: {
-        title: 'الاحتياجات والخدمات اللوجستية',
-        subtitle: 'تتبع المخزون وطرق النقل',
-        statVehicles: 'المركبات النشطة',
-        createRoute: 'إنشاء مسار',
-      },
-      support: {
-        title: 'الدعم والتطوع',
-        subtitle: 'قوة المجتمع المستمرة',
-        volunteerTitle: 'كن متطوعاً',
-        volunteerDesc: 'انضم إلى فريقنا وقف بجانبنا في جهود ما بعد الكارثة.',
-        formName: 'الاسم الكامل',
-        formExpertise: 'مجال الخبرة',
-        expertiseOptions: ['إسعافات أولية', 'خدمات لوجستية', 'بحث وإنقاذ', 'دعم نفسي واجتماعي'],
-        volunteerTags: {
-          health: 'صحة',
-          tech: 'ميدان',
-          logistics: 'لوجستي',
-          language: 'لغة',
-        },
-        fieldOptions: {
-          field: 'متطوع ميداني',
-        },
-        tasksTitle: 'لوحة المتطوعين',
-        tasksSubtitle: 'سوق المهام الفوري',
-        donationTitle: 'قنوات التبرع الموثوقة',
-        donationSubtitle: 'جسر المؤسسة الرسمية',
-        submit: 'إرسال الطلب'
-      },
-      faq: {
-        title: 'أسئلة وأجوبة ومعلومات',
-        subtitle: 'معلومات منقذة للحياة',
-        qa: [
-          { q: 'ماذا يجب أن أفعل أولاً أثناء الزلزال؟', a: 'قم بتطبيق طريقة انزل-تغط-تمسك. ابق بعيداً عن النوافذ والسلالم والمصاعد.' },
-          { q: 'ماذا يجب أن أضع في حقيبة الطوارئ؟', a: 'ماء، صفارة، مصباح يدوي، حقيبة إسعافات أولية، بطاريات احتياطية، بطانية، وطعام جاف لمدة 3 أيام.' },
-          { q: 'ماذا يجب أن أفعل عندما أتلقى تحذيراً من فيضان؟', a: 'أوقف تشغيل الكهرباء والغاز، وانتقل إلى أرض مرتفعة على الفور. لا تحاول قيادة سيارتك.' },
-          { q: 'ماذا لو كانت الأبواب ساخنة أثناء الحريق؟', a: 'لا تفتح الباب. سد الدخان بقطع قماش مبللة تحت الباب واطلب المساعدة من can.' },
-          { q: 'كيف يمكنني معرفة منطقة التجمع الخاصة بي؟', a: 'يمكنك معرفة أقرب نقطة آمنة لك باستخدام خدمة "الاستعلام عن منطقة التجمع في حالات الكوارث والطوارئ" على بوابة الحكومة الإلكترونية أو من خريطة "مناطق التجمع" في تطبيقنا.' },
-          { q: 'ماذا أفعل إذا حوصرت تحت الأنقاض؟', a: 'Panik yapmamaya çalışın ve enerjinizi koruyun. Toz yutmamak için ağzınızı bir bezle kapatın. Dışarıdan ses duyduğunuzda borulara vurarak veya düdük çalarak yerinizi belli edin.' },
-          { q: 'ما هي المدة الزمنية للإبلاغ عن مطالبة DASK؟', a: 'Hasarı öğrendiğiniz tarihten itibaren en geç 15 iş günü içinde DASK\'a (Alo 125, e-Devlet veya web sitesi üzerinden) bildirim yapmanız gerekmektedir.' }
-        ]
-      }
-    }
-  }
-};
-
-// --- Types ---
 
 enum ModuleType {
   EMERGENCY = 'emergency',
@@ -917,28 +256,28 @@ const modules: ModuleConfig[] = [
     icon: Activity,
     color: 'bg-[#C62828]',
     borderColor: 'border-[#B71C1C]',
-    metric: { tr: 'CANLI: 14 AKTİF BÖLGE', en: 'LIVE: 14 ACTIVE ZONES', ar: 'مباشر: 14 منطقة نشطة' }
+    metric: { tr: 'DEMO: 14 ÖRNEK BÖLGE', en: 'DEMO: 14 SAMPLE ZONES', ar: 'عرض تجريبي: مناطق نموذجية' }
   },
   {
     id: ModuleType.PREPARATION,
     icon: ShieldCheck,
     color: 'bg-[#1A237E]',
     borderColor: 'border-[#0D47A1]',
-    metric: { tr: 'GÜNCEL: %100 HAZIRLIK', en: 'CURRENT: %100 PREP', ar: 'الحالي: %100 استعداد' }
+    metric: { tr: 'DEMO: HAZIRLIK', en: 'DEMO: PREPARATION', ar: 'عرض تجريبي: الاستعداد' }
   },
   {
     id: ModuleType.LOGISTICS,
     icon: Truck,
     color: 'bg-[#E65100]',
     borderColor: 'border-[#BF360C]',
-    metric: { tr: 'GÜNCEL: %92 DAĞITIM', en: 'CURRENT: %92 DIST.', ar: 'الحالي: %92 توزيع' }
+    metric: { tr: 'DEMO: LOJİSTİK', en: 'DEMO: LOGISTICS', ar: 'عرض تجريبي: الخدمات اللوجستية' }
   },
   {
     id: ModuleType.SUPPORT,
     icon: Users,
     color: 'bg-[#00695C]',
     borderColor: 'border-[#004D40]',
-    metric: { tr: 'AKTİF: 2,450 GÖNÜLLÜ', en: 'ACTIVE: 2,450 VOL.', ar: 'نشط: 2,450 متطوع' }
+    metric: { tr: 'DEMO: GÖNÜLLÜLER', en: 'DEMO: VOLUNTEERS', ar: 'عرض تجريبي: المتطوعون' }
   },
   {
     id: ModuleType.FAQ,
@@ -988,22 +327,12 @@ export default function App() {
 
   const handleAiSearch = async (overrideQuestion?: string) => {
     const soru = (overrideQuestion ?? aiQuestion).trim();
-    if (!soru) return;
+    if (!soru || aiLoading) return;
     setAiLoading(true);
     setAiAnswer('');
 
-    const isOnline = navigator.onLine;
-    const targetUrl = isOnline 
-      ? "http://127.0.0.1:8000/soru-sor"
-      : "http://127.0.0.1:8000/soru-sor";
-
     try {
-      const response = await fetch(targetUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ soru })
-      });
-      const data = await response.json();
+      const data = await askQuestion(soru);
       setAiAnswer(data.cevap);
     } catch (error) {
       setAiAnswer(t.aiError || 'Yapay zeka sunucusuna bağlanılamadı.');
@@ -1104,7 +433,7 @@ export default function App() {
   const shareLocation = () => {
     setLocationStatus('requesting');
 
-    // Simulate finding location
+    // Demonstration only: no location is transmitted.
     setTimeout(() => {
       setLocationStatus('success');
       setTimeout(() => setLocationStatus('idle'), 3000);
@@ -1118,8 +447,7 @@ export default function App() {
         sirenRef.current.currentTime = 0;
         setIsSirenPlaying(false);
       } else {
-        sirenRef.current.play().catch(e => console.error("Audio play failed:", e));
-        setIsSirenPlaying(true);
+        sirenRef.current.play().then(() => setIsSirenPlaying(true)).catch(() => setIsSirenPlaying(false));
       }
     }
   };
@@ -1145,21 +473,21 @@ export default function App() {
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-20 bg-white/95 backdrop-blur-xl border-b border-gray-200 z-50 px-6 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4">
-          <div className="relative">
+      <header className="fixed top-0 left-0 right-0 h-20 bg-white/95 backdrop-blur-xl border-b border-gray-200 z-50 px-3 sm:px-6 flex items-center justify-between gap-2 shadow-sm">
+        <div className="flex items-center gap-1 sm:gap-4 min-w-0">
+          <div className="relative shrink-0">
             <img
               src="/logo.png"
               alt="Logo"
-              className="w-20 h-20 object-contain brightness-90 contrast-125"
+              className="w-10 h-10 sm:w-20 sm:h-20 object-contain brightness-90 contrast-125"
               referrerPolicy="no-referrer"
             />
           </div>
           <div className="flex flex-col">
-            <h1 className="font-black text-sm tracking-widest text-[#1a237e]">{t.appName}</h1>
-            <div className="flex items-center gap-2">
+            <h1 className="font-black text-xs sm:text-sm tracking-wide text-[#1a237e]"><span className="sm:hidden">EL ELE</span><span className="hidden sm:inline">{t.appName}</span></h1>
+            <div className="hidden sm:flex items-center gap-2">
               <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1">
-                <ShieldCheck size={10} className="text-green-600" /> AFAD / KIZILAY ENTEGRE SİSTEM
+                <ShieldCheck size={10} className="text-green-600" /> PORTFOLIO DEMO
               </span>
             </div>
           </div>
@@ -1177,6 +505,7 @@ export default function App() {
         <div className="flex items-center gap-2 sm:gap-4 relative">
           <div className="relative">
             <button
+              aria-label={t.contact}
               onClick={() => setIsContactOpen(!isContactOpen)}
               className={`flex items-center gap-3 px-5 py-2.5 rounded-lg font-black text-[10px] transition-all border-2 uppercase tracking-widest ${isContactOpen
                   ? 'bg-red-700 text-white border-red-800 shadow-inner'
@@ -1261,6 +590,7 @@ export default function App() {
 
           {/* Language Toggle */}
           <button
+            aria-label="Change language"
             onClick={() => setLang(lang === 'tr' ? 'en' : lang === 'en' ? 'ar' : 'tr')}
             className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 text-gray-700 font-bold text-xs hover:bg-gray-200 transition-all border border-gray-200"
           >
@@ -1275,6 +605,7 @@ export default function App() {
       </header>
 
       <main className="pt-24 pb-10 px-4 sm:px-6 max-w-5xl mx-auto">
+        <DemoNotice lang={lang} />
         <AnimatePresence mode="wait">
           {!activeModule ? (
             <motion.div
@@ -1433,7 +764,7 @@ export default function App() {
                       locationStatus === 'success' ? 'bg-green-600' : 'bg-red-600 hover:bg-red-700'}`}
                 >
                   {locationStatus === 'success' ? <CheckCircle2 size={18} /> : <MapPin size={18} />}
-                  {locationStatus === 'success' ? (lang === 'tr' ? 'İLETİLDİ' : 'SENT') : (lang === 'tr' ? 'Konum Gönder' : 'Send Location')}
+                  {locationStatus === 'success' ? (lang === 'tr' ? 'DEMO: GÖNDERİLMEDİ' : 'DEMO: NOT SENT') : (lang === 'tr' ? 'Konum Gönder' : 'Send Location')}
                 </button>
               </motion.div>
             )}
@@ -1502,15 +833,11 @@ export default function App() {
                       {lang === 'tr' ? 'Afet Asistanı' : lang === 'ar' ? 'مساعد الطوارئ' : 'Disaster Assistant'}
                     </h3>
                     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                      {lang === 'tr' ? 'Yapay Zeka Destekli' : 'AI Powered'}
+                      {lang === 'tr' ? 'Yerel Doküman Araması • Türkçe' : 'Local Document Search • Turkish'}
                     </p>
                     {/* ⚙️ ANLIK DURUM ROZETİ GÖSTERGESİ */}
                     <div className="text-[10px] font-black uppercase tracking-wider mt-1">
-                      {navigator.onLine ? (
-                        <span className="text-green-600">🌐 Çevrimiçi Mod </span>
-                      ) : (
-                        <span className="text-red-500 animate-pulse">🔌 Acil Durum Modu (Offline Aktif)</span>
-                      )}
+                      <span>{lang === 'tr' ? 'Yerel API bağlantısı gerektirir' : 'Requires a running local API'}</span>
                     </div>
                   </div>
                 </div>
@@ -1525,6 +852,8 @@ export default function App() {
               <div className="flex gap-2">
                 <input
                   type="text"
+                  aria-label="Assistant question"
+                  maxLength={1000}
                   value={aiQuestion}
                   onChange={(e) => setAiQuestion(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAiSearch()}
@@ -1563,9 +892,9 @@ export default function App() {
               )}
 
               {(aiLoading || aiAnswer) && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-2xl border-l-4 border-emerald-600 max-h-[300px] overflow-y-auto">
+                <div role="status" aria-live="polite" className="mt-4 p-4 bg-gray-50 rounded-2xl border-l-4 border-emerald-600 max-h-[300px] overflow-y-auto">
                   <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-1">
-                    {lang === 'tr' ? '💬 Yapay Zeka Yanıtı' : '💬 AI Response'}
+                    {lang === 'tr' ? 'Doküman sonucu' : 'Document result'}
                   </span>
                   <p className="text-xs sm:text-sm text-gray-800 font-medium leading-relaxed whitespace-pre-line">
                     {aiLoading ? t.aiThinking : aiAnswer}
@@ -1617,7 +946,7 @@ export default function App() {
                 </button>
               </div>
 
-              <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Yardım talebiniz başarıyla alındı ve sisteme işlendi. Ekipler en kısa sürede sizinle iletişime geçecektir.'); setIsHelpRequestModalOpen(false); }}>
+              <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert(lang === 'tr' ? 'Demo: Yardım talebi gönderilmedi. Bu uygulama acil yardım ekiplerine bağlı değildir.' : 'Demo: No help request was sent. This app is not connected to emergency services.'); setIsHelpRequestModalOpen(false); }}>
                 <div className="space-y-4">
                   <label className="text-xs font-black text-gray-400 uppercase tracking-widest block">İhtiyaç Türü</label>
                   <div className="grid grid-cols-2 gap-3">
@@ -2505,13 +1834,13 @@ function VolunteerForm({ lang, disasterType }: { lang: 'tr' | 'en' | 'ar', disas
           <div className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2
             ${disasterType === 'earthquake' ? 'bg-red-50 text-red-600' : disasterType === 'flood' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
             {disasterType === 'earthquake' ? <Activity size={14} /> : disasterType === 'flood' ? <Waves size={14} /> : <Flame size={14} />}
-            {t[disasterType as keyof typeof t] || disasterType}
+            {typeof t[disasterType as keyof typeof t] === 'string' ? String(t[disasterType as keyof typeof t]) : disasterType}
           </div>
         )}
       </div>
       <p className="text-gray-500 mb-8 font-medium">{t.volunteerDesc}</p>
 
-      <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); alert('Kaydınız alındı, yetkinliklerinize göre eşleştirileceksiniz.'); }}>
+      <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); alert(lang === 'tr' ? 'Demo: Kayıt gönderilmedi veya saklanmadı.' : 'Demo: No registration was sent or saved.'); }}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input type="text" placeholder={t.formName} className="p-4 rounded-2xl border border-gray-100 bg-gray-50 font-bold text-sm outline-none focus:ring-2 focus:ring-blue-500" required />
           <input type="email" placeholder="E-posta Adresi" className="p-4 rounded-2xl border border-gray-100 bg-gray-50 font-bold text-sm outline-none focus:ring-2 focus:ring-blue-500" required />

@@ -1,63 +1,40 @@
-import os
+"""Optional SQLite export. The HTTP retrieval API reads the source text directly."""
+from pathlib import Path
 import sqlite3
-from pypdf import PdfReader
 
-# 1. SQLite Veritabanı Bağlantısı (Yoksa otomatik oluşturur)
-DB_NAME = "afet_bilgi.db"
-conn = sqlite3.connect(DB_NAME)
-cursor = conn.cursor()
+ROOT = Path(__file__).resolve().parent
+DB_NAME = ROOT / 'afet_bilgi.db'
 
-# Tabloyu oluşturalım (Metinleri ve hangi dosyadan geldiklerini tutacak)
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS kaynak_dokumanlar (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        dosya_adi TEXT,
-        metin_parcasi TEXT
-    )
-''')
-conn.commit()
 
 def metni_parcalara_bol(metin, kelime_siniri=300):
-    """Metni yaklaşık 300 kelimelik parçalara böler."""
-    kelimeler = metin.split()
-    parcalar = []
-    for i in range(0, len(kelimeler), kelime_siniri):
-        parca = " ".join(kelimeler[i:i+kelime_siniri])
-        parcalar.append(parca)
-    return parcalar
+    if kelime_siniri < 1:
+        raise ValueError('Chunk size must be positive.')
+    words = metin.split()
+    return [' '.join(words[i:i + kelime_siniri]) for i in range(0, len(words), kelime_siniri)]
 
-def verileri_isle():
-    data_klasoru = "data"
-    if not os.path.exists(data_klasoru):
-        print("Lütfen önce 'data' adında bir klasör oluşturun!")
-        return
 
-    for dosya in os.listdir(data_klasoru):
-        dosya_yolu = os.path.join(data_klasoru, dosya)
-        tam_metin = ""
-        
-        # TXT Dosyalarını Oku
-        if dosya.endswith(".txt"):
-            with open(dosya_yolu, "r", encoding="utf-8") as f:
-                tam_metin = f.read()
-        
-        # PDF Dosyalarını Oku
-        elif dosya.endswith(".pdf"):
-            reader = PdfReader(dosya_yolu)
-            for page in reader.pages:
-                tam_metin += page.extract_text() + "\n"
-        
-        if tam_metin:
-            parcalar = metni_parcalara_bol(tam_metin)
-            for parca in parcalar:
-                cursor.execute(
-                    "INSERT INTO kaynak_dokumanlar (dosya_adi, metin_parcasi) VALUES (?, ?)",
-                    (dosya, parca)
-                )
-            conn.commit()
-            print(f"✅ {dosya} başarıyla işlendi ve {len(parcalar)} parçaya bölünerek veritabanına kaydedildi.")
+def verileri_isle(data_klasoru=ROOT / 'data', db_path=DB_NAME):
+    data_dir = Path(data_klasoru)
+    if not data_dir.is_dir():
+        raise FileNotFoundError(data_dir)
+    documents = []
+    for path in sorted(data_dir.iterdir()):
+        if path.suffix.lower() == '.txt':
+            text = path.read_text(encoding='utf-8')
+        elif path.suffix.lower() == '.pdf':
+            from pypdf import PdfReader
+            text = '\n'.join(page.extract_text() or '' for page in PdfReader(path).pages)
+        else:
+            continue
+        documents.append((path.name, metni_parcalara_bol(text)))
+    # Replace each source atomically; running the script twice cannot duplicate it.
+    with sqlite3.connect(db_path) as connection:
+        connection.execute('CREATE TABLE IF NOT EXISTS kaynak_dokumanlar (id INTEGER PRIMARY KEY, dosya_adi TEXT, metin_parcasi TEXT)')
+        for name, chunks in documents:
+            connection.execute('DELETE FROM kaynak_dokumanlar WHERE dosya_adi = ?', (name,))
+            connection.executemany('INSERT INTO kaynak_dokumanlar (dosya_adi, metin_parcasi) VALUES (?, ?)', [(name, chunk) for chunk in chunks])
+    return sum(len(chunks) for _, chunks in documents)
 
-if __name__ == "__main__":
-    verileri_isle()
-    conn.close()
-    print(f"\n🚀 Tüm dökümanlar başarıyla '{DB_NAME}' veritabanına işlendi!")
+
+if __name__ == '__main__':
+    print(f'Indexed {verileri_isle()} chunks.')
