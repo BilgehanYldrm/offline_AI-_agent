@@ -45,14 +45,14 @@ def txt_dosyasindan_blok_ara(kullanici_sorusu):
     with open(dosya_yolu, "r", encoding="utf-8") as f:
         ham_metin = f.read()
     
-    # Metni '=== BAŞLIK ===' yapısına göre parçalara ayır
+    
     bloklar = re.findall(r'===\s*([^=]+)\s*===\s*\n(.*?)(?=\n===|\Z)', ham_metin, re.DOTALL)
     
     soru_temiz = kullanici_sorusu.lower().strip()
 
     kesin_hedef = None
 
-    # 🎯 EKLERDEN BAĞIMSIZ HARF KÖKÜ HARİTASI
+    
     if "kop" in soru_temiz or "amput" in soru_temiz or "uzuv" in soru_temiz:
         kesin_hedef = "UZUV KOPMASI (AMPUTASYON) DURUMUNDA MÜDAHALE"
     elif "burun" in soru_temiz or "burn" in soru_temiz:
@@ -88,18 +88,17 @@ def txt_dosyasindan_blok_ara(kullanici_sorusu):
     elif "haber" in soru_temiz or "sms" in soru_temiz or "telefon" in soru_temiz:
         kesin_hedef = "HABERLEŞMENİN KESİLDİĞİ DURUMLARDA YAPILACAKLAR"
 
-    # Eğer hedef eşleştiyse .txt dosyasındaki başlığı ve içeriği HİÇ DEĞİŞTİRMEDEN BİREBİR dön
-    if kesin_hedef:
+    
         for baslik, icerik in bloklar:
             if kesin_hedef.lower() in baslik.lower():
                 return f"=== {baslik.strip()} ===\n\n{icerik.strip()}"
 
-    # Eşleşme yoksa metindeki ilk bloğu birebir dön
+    
     return f"=== {bloklar[0][0].strip()} ===\n\n{bloklar[0][1].strip()}"
 
 @app.post("/soru-sor")
 async def yapay_zeka_cevapla(istek: SoruIstegi):
-    # Ollama'nın uydurma metin üretmesini engellemek için doğrudan txt'deki BİREBİR içeriği dönüyoruz
+   
     cevap = txt_dosyasindan_blok_ara(istek.soru)
     return {"cevap": cevap}
 

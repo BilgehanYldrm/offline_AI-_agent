@@ -7,6 +7,7 @@ from sentence_transformers import SentenceTransformer, util
 
 app = FastAPI()
 
+# React / Web arayüzünün sorunsuz bağlanması için CORS ayarları
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🧠 TÜRKÇE YAPAY ZEKA MODELİ
+# 🧠 TÜRKÇE YAPAY ZEKA MODELİ (Semantic Search Fallback)
 print("🧠 Yapay zeka modeli yükleniyor, lütfen bekleyin...")
 model = SentenceTransformer('dbmdz/bert-base-turkish-cased')
 print("✅ Model başarıyla yüklendi!")
@@ -25,8 +26,8 @@ class SoruIstegi(BaseModel):
 
 def txt_dosyasindan_blok_ara(kullanici_sorusu):
     """
-    Önce kesin anahtar kelime eşleştirmesi yapar (Hata payı %0).
-    Eğer eşleşme bulamazsa yapay zeka modeli (Semantic Search) ile anlam araması yapar.
+    1. Öncelikli Kural Tablosu (Deterministic Mapping): Cümledeki acil durumu yakalar (%0 Hata Payı).
+    2. Vektör Benzerliği (Semantic Search): Genel sorularda BERT modeli ile anlamsal eşleşme yapar.
     """
     su_anki_dizin = os.path.dirname(os.path.abspath(__file__))
     taranacak_yerler = [
@@ -51,7 +52,7 @@ def txt_dosyasindan_blok_ara(kullanici_sorusu):
     with open(dosya_yolu, "r", encoding="utf-8") as f:
         ham_metin = f.read()
     
-    # Blokları başlık ve içerik olarak ayır
+    # Dökümanı '=== BAŞLIK ===' bloklarına göre ayır
     bloklar = re.findall(r'===\s*([^=]+)\s*===\s*\n(.*?)(?=\n===|\Z)', ham_metin, re.DOTALL)
     
     if not bloklar:
@@ -59,52 +60,54 @@ def txt_dosyasindan_blok_ara(kullanici_sorusu):
 
     soru_temiz = kullanici_sorusu.lower().strip()
 
-    # 🎯 %100 GARANTİLİ ANAHTAR KELİME TABLOSU (Seni ve jüriyi asla üzmez)
+    # 🎯 ÖNCELİK SIRALI KESİN ANAHTAR KELİME TABLOSU
     kesin_hedef = None
 
-    if "burun" in soru_temiz or "burn" in soru_temiz:
+    # 1. Öncelik: Spesifik Acil Durumlar (Cümlede 'bulunduğum' geçse bile yangını yakalar)
+    if "yangın" in soru_temiz or "yangin" in soru_temiz or "duman" in soru_temiz or "alev" in soru_temiz:
+        kesin_hedef = "YANGIN ANINDA TAHLİYE VE MÜDAHALE"
+    elif "sel" in soru_temiz or "su bask" in soru_temiz:
+        kesin_hedef = "SU BASKINI (SEL) DURUMUNDA HAREKET TARZI"
+    elif "elektrik" in soru_temiz or "çarp" in soru_temiz or "carp" in soru_temiz:
+        kesin_hedef = "ELEKTRİK ÇARPMASI DURUMUNDA MÜDAHALE"
+    elif "burun" in soru_temiz or "burn" in soru_temiz:
         kesin_hedef = "BURUN KANAMASI MÜDAHALESİ"
+    elif "kop" in soru_temiz or "amput" in soru_temiz or "uzuv" in soru_temiz:
+        kesin_hedef = "UZUV KOPMASI (AMPUTASYON) DURUMUNDA MÜDAHALE"
+    elif "çanta" in soru_temiz or "canta" in soru_temiz:
+        kesin_hedef = "DEPREM ÇANTASINDA BULUNMASI GEREKENLER"
     elif "iç kan" in soru_temiz or "ic kan" in soru_temiz:
         kesin_hedef = "İÇ KANAMA ŞÜPHESİ DURUMUNDA MÜDAHALE"
     elif "kafa" in soru_temiz or "beyin" in soru_temiz or "başım" in soru_temiz or "basım" in soru_temiz:
         kesin_hedef = "KAFA TRAVMASI SONRASI KANAMA"
-    elif "kop" in soru_temiz or "amput" in soru_temiz or "uzuv" in soru_temiz:
-        kesin_hedef = "UZUV KOPMASI (AMPUTASYON) DURUMUNDA MÜDAHALE"
     elif "kus" in soru_temiz or "öksür" in soru_temiz or "oksur" in soru_temiz:
         kesin_hedef = "KUSARAK VEYA ÖKSÜREREK KAN GELMELERİ DURUMU"
     elif "kes" in soru_temiz or "kan" in soru_temiz or "yara" in soru_temiz:
-        # Genel yara ve kanama durumları için nokta atışı
         kesin_hedef = "HAFİF-ORTA ŞİDDETTE YARA KANAMASI MÜDAHALESİ"
     elif "bayıl" in soru_temiz or "bayil" in soru_temiz or "şok" in soru_temiz or "sok" in soru_temiz:
         kesin_hedef = "BAYILMA VE ŞOK BELİRTİLERİNDE MÜDAHALE"
-    elif "cpr" in soru_temiz or "kalp" in soru_temiz or "masaj" in soru_temiz or "nefes alm" in soru_temiz:
+    elif "cpr" in soru_temiz or "kalp" in soru_temiz or "masaj" in soru_temiz or "nefes" in soru_temiz:
         kesin_hedef = "KALP DURMASI VE TEMEL YAŞAM DESTEĞİ (CPR)"
-    elif "sel" in soru_temiz or "su bask" in soru_temiz:
-        kesin_hedef = "SU BASKINI (SEL) DURUMUNDA HAREKET TARZI"
-    elif "çanta" in soru_temiz or "canta" in soru_temiz:
-        kesin_hedef = "DEPREM ÇANTASINDA BULUNMASI GEREKENLER"
-    elif "elektrik" in soru_temiz or "çarp" in soru_temiz or "carp" in soru_temiz:
-        kesin_hedef = "ELEKTRİK ÇARPMASI DURUMUNDA MÜDAHALE"
-    elif "yangın" in soru_temiz or "yangin" in soru_temiz or "duman" in soru_temiz or "alev" in soru_temiz:
-        kesin_hedef = "YANGIN ANINDA TAHLİYE VE MÜDAHALE"
-    elif "tahliye" in soru_temiz or "bina" in soru_temiz or "çık" in soru_temiz or "cik" in soru_temiz:
-        kesin_hedef = "DEPREM SONRASI BİNADAN TAHLİYE"
-    elif "deprem" in soru_temiz or "sarsıntı" in soru_temiz or "sarsinti" in soru_temiz or "çök" in soru_temiz:
-        kesin_hedef = "DEPREM ANINDA YAPILMASI GEREKENLER (ÇÖK-KAPAN-TUTUN)"
-    elif "psikolojik" in soru_temiz or "travma" in soru_temiz or "kork" in soru_temiz or "sakin" in soru_temiz:
-        kesin_hedef = "PSİKOLOJİK İLK YARDIM VE TRAVMA SONRASI DESTEK"
     elif "kırık" in soru_temiz or "kirik" in soru_temiz or "çıkık" in soru_temiz or "cikik" in soru_temiz:
         kesin_hedef = "KIRIK VE ÇIKIK MÜDAHALESİ"
+
+    # 2. Öncelik: Genel Deprem ve Bina Tahliye İfadeleri
+    elif "deprem" in soru_temiz or "sarsıntı" in soru_temiz or "sarsinti" in soru_temiz or "çök" in soru_temiz:
+        kesin_hedef = "DEPREM ANINDA YAPILMASI GEREKENLER (ÇÖK-KAPAN-TUTUN)"
+    elif "tahliye" in soru_temiz or "binadan" in soru_temiz:
+        kesin_hedef = "DEPREM SONRASI BİNADAN TAHLİYE"
+    elif "psikolojik" in soru_temiz or "travma" in soru_temiz or "kork" in soru_temiz or "sakin" in soru_temiz:
+        kesin_hedef = "PSİKOLOJİK İLK YARDIM VE TRAVMA SONRASI DESTEK"
     elif "haber" in soru_temiz or "sms" in soru_temiz or "telefon" in soru_temiz or "internet" in soru_temiz:
         kesin_hedef = "HABERLEŞMENİN KESİLDİĞİ DURUMLARDA YAPILACAKLAR"
 
-    # 1. Aşama: Eğer kesin hedeflerden biri yakalandıysa doğrudan o bloğu çek fırlat!
+    # 1. Aşama: Hedef anahtar kelime eşleştiyse dökümandaki bloğu birebir döndür
     if kesin_hedef:
         for baslik, icerik in bloklar:
             if kesin_hedef.lower() in baslik.lower():
                 return f"=== {baslik.strip()} ===\n\n{icerik.strip()}"
 
-    # 2. Aşama: Eğer yukarıdaki net anahtar kelimelerden biri yoksa, yapay zeka modelini çalıştır.
+    # 2. Aşama: Eşleşme yoksa Türkçe BERT yapay zeka modeliyle Kosinüs Benzerliği hesapla
     basliklar = [b[0].strip() for b in bloklar]
     soru_vektoru = model.encode(kullanici_sorusu, convert_to_tensor=True)
     baslik_vektorleri = model.encode(basliklar, convert_to_tensor=True)
@@ -125,3 +128,7 @@ async def soru_sor(istek: SoruIstegi):
     print(f"📩 Gelen Soru: {istek.soru}")
     cevap = txt_dosyasindan_blok_ara(istek.soru)
     return {"cevap": cevap}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
