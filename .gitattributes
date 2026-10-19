@@ -1,0 +1,8 @@
+# Frontend TypeScript ve JavaScript dosyalarını dil istatistiğinden hariç tut
+src/** linguist-vendored
+public/** linguist-vendored
+*.tsx linguist-vendored
+*.ts linguist-vendored
+*.jsx linguist-vendored
+*.js linguist-vendored
+*.json linguist-documentation
